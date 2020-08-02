@@ -31,19 +31,19 @@ GuiClose:
 ExitApp
 
 Flask1:
-	Run, Flask_1.exe, WorkingDir
+	Run, Flask_1.ahk, WorkingDir
 	return
 Flask2:
-	Run, Flask_2.exe, WorkingDir
+	Run, Flask_2.ahk, WorkingDir
 	return
 Flask3:
-	Run, Flask_3.exe, WorkingDir
+	Run, Flask_3.ahk, WorkingDir
 	return
 Flask4:
-	Run, Flask_4.exe, WorkingDir
+	Run, Flask_4.ahk, WorkingDir
 	return
 Flask5:
-	Run, Flask_5.exe, WorkingDir
+	Run, Flask_5.ahk, WorkingDir
 	return
 
 Help:
@@ -61,11 +61,11 @@ Help:
 Kill:
 	MsgBox,4,, Are you sure to kill all existing flask scripts?
 	If MsgBox Yes
-		Process, Close, Flask_1.exe
-		Process, Close, Flask_2.exe
-		Process, Close, Flask_3.exe
-		Process, Close, Flask_4.exe
-		Process, Close, Flask_5.exe
+		Process, Close, Flask_1.ahk
+		Process, Close, Flask_2.ahk
+		Process, Close, Flask_3.ahk
+		Process, Close, Flask_4.ahk
+		Process, Close, Flask_5.ahk
 	return
 
 $F10::
@@ -542,7 +542,7 @@ $F7::
 			MouseClick, left, 1722, 772, 1, 2
 			MouseClick, left, 1451, 826, 1, 2
 			MouseClick, left, 1722, 826, 1, 2
-			;fünfte 5 Maps
+			;fÃ¼nfte 5 Maps
 			MouseClick, left, 1502, 613, 1, 2
 			MouseClick, left, 1671, 613, 1, 2
 			MouseClick, left, 1502, 667, 1, 2
