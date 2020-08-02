@@ -18,6 +18,8 @@ How do I download this script?
 - Start ONLY the Master.exe file. You can ignore the other .exe files. You can also ignore the .ahk files.
 - The script will open in the lower right corner of your screen (overlaps the mana display).
 
+![snapshot](https://github.com/cmonBruuh/poescript/blob/master/Snapshot.PNG?raw=true)
+
 Functions:
 
 - You can use the "?" button to view all functions. A new window with the functions will open. With another click on "?" you can hide the information again.
