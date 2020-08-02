@@ -14,8 +14,8 @@ First some important information:
 
 How do I download this script?
 
-- Download the whole EXE folder and save it where you want. The files must stay all together in the same folder.
-- Start ONLY the Master.exe file. You can ignore the other .exe files. You can also ignore the .ahk files.
+- Download the zip
+- Start ONLY the master.exe or master.ahk file (that is up to what you prefer). You can ignore the other(Flask).exe/.ahk files.
 - The script will open in the lower right corner of your screen (overlaps the mana display).
 
 ![snapshot](https://github.com/cmonBruuh/poescript/blob/master/Snapshot.PNG?raw=true)
