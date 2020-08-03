@@ -71,4 +71,4 @@ Hotkeys:
 - CTRL+NumpadX: Moves x Inventory columns to stash
 - CTRL+Numpad0: Moves all Inventory to stash
 
-If you have any questions leave me a message in Discord: Tilbuinn#1276
+If you have any questions leave me a message in Discord: DisWa#1276
