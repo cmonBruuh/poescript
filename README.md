@@ -1,5 +1,11 @@
 # poescript
 
+V2.0 Update:
+
+- Added skills to be automated (read the Flasks and Timer section for this)
+- Updated repo
+- Removed EXE files which means you need AHK to execute the script
+
 I have been using this script since the Legion League.
 
 It's not just a flask script but brings additional features.
