@@ -12,9 +12,7 @@ It's not just a flask script but brings additional features.
 
 First some important information:
 
-- I have provided a folder EXE. It's up to you if you use master.ahk or master.exe
 - AHK must be downloaded.
-- The .exe files are identical to the .ahk files, just compiled.
 - I do not take any liability for bans. I can say that I have been using the script for a while and nothing has happened yet. I think a big part of the POE community uses Flask Scripts or similar.
 - This script only supports 1920x1080 display. Other resolutions I have not tested. If the script is only used for Flasks, it should work with other resolutions as well.
 
