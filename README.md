@@ -60,7 +60,7 @@ Lvling:
 Button one, two, three, four and five:
 - third variant for Flasks
 - when this function is used, the other two functions cannot be used.
-- The individual buttons can be used to enter the milliseconds that should elapse between the activation of each flash.
+- The individual buttons can be used to enter the milliseconds that should elapse between the activation of each flask.
 - This function is powerful, because you can specify the exact cool down time for each flask.
 - Example: In Flask Slot 1, I have a Life flask, so I don't have to enter anything. In the second ingame Flask Slot I use a Basalt Flask with 7sec. So I press the button "2" and enter 7000. Then I confirm with OK. I repeat this step for the other flasks I want to automate. The values will be saved and will stay on as long as the script is running.
 
