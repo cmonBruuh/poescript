@@ -6,6 +6,15 @@ V2.0 Update:
 - Updated repo
 - Removed EXE files which means you need AHK to execute the script
 
+--------------------------------------------------------------------------------------------------------------------
+
+V2.1 Update:
+
+- Added a currency spam (f.ex. fusing)
+- Read the section "Spam" in this file for more information
+
+--------------------------------------------------------------------------------------------------------------------
+
 I have been using this script since the Legion League.
 
 It's not just a flask script but brings additional features.
@@ -74,5 +83,14 @@ Hotkeys:
 - F10: Move Items to right side in Inventory
 - CTRL+NumpadX: Moves x Inventory columns to stash
 - CTRL+Numpad0: Moves all Inventory to stash
+
+Spam:
+- This function is useful for 6-socketing or 6-linking an item where you want to spam Jeweller's/Fusing Orbs
+- Click the spam button and enter how many times the currency should be applied to an item
+- Click the random checkbox for random click intervalls (harder to detect), leave it if you want to go FAST
+- Right Click on the currency and hover your mouse over the item
+- Hold Shift and click on the Pause/Break button on your keyboard
+- If you want to abruptly end the macro click on Pause/Break again (first stop holding down the shift key!)
+- Click count must be between 1 and 999
 
 If you have any questions leave me a message in Discord: DisWa#1276
