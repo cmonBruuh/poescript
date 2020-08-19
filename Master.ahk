@@ -29,7 +29,7 @@ Gui, Add, Button, x60 y100 w23 h22 gSkillR, R
 Gui, Add, Button, x80 y100 w23 h22 gSkillT, T
 Gui, Add, Button, x100 y60 w23 h22 gKill, X
 Gui, Add, Button, x100 y80 w23 h22 vHelp gHelp, ?
-Gui, Show,% "x" A_ScreenWidth - 140 " y" A_ScreenHeight - 170 " w" 126 " h" 120, Script V2.0
+Gui, Show,% "x" A_ScreenWidth - 140 " y" A_ScreenHeight - 170 " w" 126 " h" 120, Script V2.1
 Gui, Color, 
 return
 
