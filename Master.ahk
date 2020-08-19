@@ -16,6 +16,7 @@ Gui, Add, Edit, x53 y0 w69 h20 -VScroll vFlasks,
 Gui, Add, Edit, x53 y20 w69 h20 -VScroll vTimer,
 Gui, Add, Edit, x53 y40 w69 h20 -VScroll +ReadOnly vLogs, Sleeping...
 Gui, Add, CheckBox, x30 y58 w25 h20 vQuick,
+Gui, Add, Button, x62 y60 w40 h22 gSpam, Spam
 Gui, Add, Button, x0 y80 w23 h22 gFlask1, 1
 Gui, Add, Button, x20 y80 w23 h22 gFlask2, 2
 Gui, Add, Button, x40 y80 w23 h22 gFlask3, 3
@@ -64,6 +65,9 @@ SkillR:
 	return
 SkillT:
 	Run %A_ScriptDir%\timers\Skill_T.ahk
+	return
+Spam:
+	Run %A_ScriptDir%\timers\Spam_C.ahk
 	return
 
 Help:
