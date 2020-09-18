@@ -27,6 +27,7 @@ Gui, Add, Button, x20 y100 w23 h22 gSkillW, W
 Gui, Add, Button, x40 y100 w23 h22 gSkillE, E
 Gui, Add, Button, x60 y100 w23 h22 gSkillR, R
 Gui, Add, Button, x80 y100 w23 h22 gSkillT, T
+Gui, Add, Button, x100 y100 w23 h22 gNotes, N
 Gui, Add, Button, x100 y60 w23 h22 gKill, X
 Gui, Add, Button, x100 y80 w23 h22 vHelp gHelp, ?
 Gui, Show,% "x" A_ScreenWidth - 140 " y" A_ScreenHeight - 170 " w" 126 " h" 120, Script V2.1
@@ -65,6 +66,9 @@ SkillR:
 	return
 SkillT:
 	Run %A_ScriptDir%\timers\Skill_T.ahk
+	return
+Notes:
+	Run %A_ScriptDir%\Notes.ahk
 	return
 Spam:
 	Run %A_ScriptDir%\timers\Spam_C.ahk
