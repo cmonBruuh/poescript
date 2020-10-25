@@ -169,6 +169,7 @@ $F7::
 	Send, {Shift up}
 	return
 	*/
+	return
 
 $F9::
 	if (deckSwitch = false) {
