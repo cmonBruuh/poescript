@@ -15,6 +15,14 @@ V2.1 Update:
 
 --------------------------------------------------------------------------------------------------------------------
 
+V2.2 Update:
+
+- Spam function is  significantly faster
+- Notes function removed
+- New function "Spam stacked deck" added (read at the end of readme how to use it)
+
+--------------------------------------------------------------------------------------------------------------------
+
 I have been using this script since the Legion League.
 
 It's not just a flask script but brings additional features.
@@ -92,5 +100,11 @@ Spam:
 - Hold Shift and click on the Pause/Break button on your keyboard
 - If you want to abruptly end the macro click on Pause/Break again (first stop holding down the shift key!)
 - Click count must be between 1 and 999
+
+Spam stacked deck:
+- Line up 50 stacked decks in the left column in your inventory (10 per cell)
+- Go in a map or area (f.ex. blood aquedact act 9)
+- Click F9 to open 50 stacked decks very fast
+- You're not able to abruptly end this function (will be working on this soon)
 
 If you have any questions leave me a message in Discord: DisWa#1276
