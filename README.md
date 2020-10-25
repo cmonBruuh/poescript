@@ -19,6 +19,7 @@ V2.2 Update:
 
 - Spam function is  significantly faster
 - Notes function removed
+- X function removed due to not working (if you set up new flasks via 1,2,3,4,5 it overwrites the old one!)
 - New function "Spam stacked deck" added (read at the end of readme how to use it)
 
 --------------------------------------------------------------------------------------------------------------------
@@ -72,10 +73,6 @@ Button one, two, three, four and five:
 - This function is powerful, because you can specify the exact cool down time for each flask.
 - Example: In Flask Slot 1, I have a Life flask, so I don't have to enter anything. In the second ingame Flask Slot I use a Basalt Flask with 7sec. So I press the button "2" and enter 7000. Then I confirm with OK. I repeat this step for the other flasks I want to automate. The values will be saved and will stay on as long as the script is running.
 
-Button X:
-- This button deletes all stored flasks and allows you to re-enter them.
-- If you only want to delete e.g. Flask 2, you have to do this manually via the tray menu.
-
 More functions (only possible with resolution 1920x1080):
 - These functions can be called via the help menu "?".
 - With F6 you fill your inventory with the maps from Map Stash. How? Open Map Stash (and right you have to have the inventory). You have to be at the map you want to transfer into your inventory. F6 fills the whole inventory with the selected map.
@@ -88,6 +85,7 @@ Hotkeys:
 - F3: Stop Flask Script
 - F6: Get Maps our of Map Stash
 - F7: Use Currency on inventory
+- F9: Spam stacked decks
 - F10: Move Items to right side in Inventory
 - CTRL+NumpadX: Moves x Inventory columns to stash
 - CTRL+Numpad0: Moves all Inventory to stash
