@@ -2,6 +2,8 @@
 
 global toggle = false
 global switch = false
+global deckSwitch = false
+global deckCount
 global timer
 global flasks
 global mapFound = false
@@ -27,10 +29,8 @@ Gui, Add, Button, x20 y100 w23 h22 gSkillW, W
 Gui, Add, Button, x40 y100 w23 h22 gSkillE, E
 Gui, Add, Button, x60 y100 w23 h22 gSkillR, R
 Gui, Add, Button, x80 y100 w23 h22 gSkillT, T
-Gui, Add, Button, x100 y100 w23 h22 gNotes, N
-Gui, Add, Button, x100 y60 w23 h22 gKill, X
-Gui, Add, Button, x100 y80 w23 h22 vHelp gHelp, ?
-Gui, Show,% "x" A_ScreenWidth - 140 " y" A_ScreenHeight - 170 " w" 126 " h" 120, Script V2.1
+Gui, Add, Button, x100 y60 w23 h22 vHelp gHelp, ?
+Gui, Show,% "x" A_ScreenWidth - 140 " y" A_ScreenHeight - 170 " w" 126 " h" 120, Script V2.2
 Gui, Color, 
 return
 
@@ -67,9 +67,6 @@ SkillR:
 SkillT:
 	Run %A_ScriptDir%\timers\Skill_T.ahk
 	return
-Notes:
-	Run %A_ScriptDir%\Notes.ahk
-	return
 Spam:
 	Run %A_ScriptDir%\timers\Spam_C.ahk
 	return
@@ -84,21 +81,6 @@ Help:
 		ToolTip
 		return
 	}
-	return
-
-Kill:
-	MsgBox,4,, Are you sure to kill all existing flask and skill scripts?
-	If MsgBox Yes
-		Process, Close, Flask_1.ahk
-		Process, Close, Flask_2.ahk
-		Process, Close, Flask_3.ahk
-		Process, Close, Flask_4.ahk
-		Process, Close, Flask_5.ahk
-		Process, Close, Skill_Q.ahk
-		Process, Close, Skill_W.ahk
-		Process, Close, Skill_E.ahk
-		Process, Close, Skill_R.ahk
-		Process, Close, Skill_T.ahk
 	return
 
 $F10::
@@ -187,6 +169,15 @@ $F7::
 	Send, {Shift up}
 	return
 	*/
+
+$F9::
+	if (deckSwitch = false) {
+		deckSwitch := true
+	} else {
+		deckSwitch := false
+	}
+	stackedDeck()
+	return
 	
 	runFlasks() {
 		if (WinActive("ahk_class POEWindowClass")) {
@@ -310,6 +301,25 @@ $F7::
 			} else {
 				MsgBox,,Error, Wrong Flasks Input`nLvling only works with 345 or 45
 				return
+			}
+		}
+	}
+	
+	stackedDeck() {
+		if (WinActive("ahk_class POEWindowClass")) {
+			deckCount = 0
+			while (deckSwitch = true) && (deckCount < 11) {
+				MouseClick, right, 1298, 613, 1, 2
+				MouseClick, left, 1218, 613, 1, 2
+				MouseClick, right, 1298, 667, 1, 2
+				MouseClick, left, 1218, 667, 1, 2
+				MouseClick, right, 1298, 721, 1, 2
+				MouseClick, left, 1218, 721, 1, 2
+				MouseClick, right, 1298, 772, 1, 2
+				MouseClick, left, 1218, 772, 1, 2
+				MouseClick, right, 1298, 826, 1, 2
+				MouseClick, left, 1218, 826, 1, 2
+				deckCount++
 			}
 		}
 	}
