@@ -28,6 +28,8 @@ V2.3 Update:
 
 - Inventory to stash function is significantly faster now
 - Chancing function removed
+- Move Maps to right function removed
+- Get maps out of map stash function removed
 - Prophecy buy function added (read at the end of readme how to use it)
 - Inventory to ground function added (read at the end of readme how to use it)
 --------------------------------------------------------------------------------------------------------------------
