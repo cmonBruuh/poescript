@@ -2,11 +2,16 @@
 
 global toggle = false
 global switch = false
-global deckSwitch = false
+global autoToggle = false
 global deckCount
+global chanceCount
 global timer
 global flasks
 global mapFound = false
+global coorY
+global coorX
+global prophCount
+global coorCount
 
 Gui,+AlwaysOnTop
 Gui, -MaximizeBox -MinimizeBox
@@ -74,17 +79,13 @@ Spam:
 Help:
 	if (switch = false) {
 		switch := true
-		ToolTip, F2 = Start Flasks`nF3 = Stop Flasks`nF6 = Get Maps out of Map Stash`nF7 = Right click a currency and then press F7 to use that currency on all items inside inventory`nF10 = Move Maps in Inventory to Right`nCtrl + Numpadx = Moves x column Inventory to stash`nCtrl + Numpad0 = Moves all Inventory to stash`n, 100, 150
+		ToolTip, F2 = Start Flasks`nF3 = Stop Flasks`nF7 = Right click a currency and then press F7 to use that currency on all items inside inventory`nF9 = Buy prophecies (leave out bottom right for this)`nF10 = Open Stacked decks in first row`nF12 = Abrubtly ends script`nCtrl + Numpadx = Moves x column Inventory to stash`nCtrl + Numpad0 = Moves all Inventory to stash`n, 100, 150
 	} else {
 		switch := false
 		RemoveToolTip:
 		ToolTip
 		return
 	}
-	return
-
-$F10::
-	moveMapsRight()
 	return
 
 $F2::
@@ -152,10 +153,12 @@ $F3::
 	twelveRow()
 	return
 	
+/* Removed getting Maps	
 $F6::
 	getMaps()
 	return
-	
+*/
+
 $F7::
 	/* NEW VERSION WITH ALL CURRENCY POSSIBLE 
 	*/
@@ -170,14 +173,33 @@ $F7::
 	return
 	*/
 	return
-
+	
 $F9::
-	if (deckSwitch = false) {
-		deckSwitch := true
-	} else {
-		deckSwitch := false
-	}
+	autoToggle := true
+	buyProph()
+	return
+
+$F10::
+	autoToggle := true
 	stackedDeck()
+	return
+	
+$F11::
+	autoToggle := true
+	inventoryToGround()
+	return
+
+/* Removed chancing
+$F11::
+	autoToggle := true
+	chancing()
+	return
+*/
+
+$F12::
+	autoToggle := false
+	chanceCount := 0
+	deckCount := 0
 	return
 	
 	runFlasks() {
@@ -281,6 +303,22 @@ $F9::
 	}
 	}
 	
+	stopFlasks() {
+		toggle := false
+		GuiControlGet, Logs
+		GuiControl,, Logs, Sleeping...
+		if (Timer = Blocked) {
+		GuiControlGet, Timer
+		GuiControl,,Timer,
+		GuiControl,-ReadOnly,Timer
+		}
+		if (Flasks = Blocked) {
+		GuiControlGet, Flasks
+		GuiControl,,Flasks,
+		GuiControl,-ReadOnly,Flasks
+		}
+	}
+	
 	runQuick() {
 		if (WinActive("ahk_class POEWindowClass")) {
 			if (flasks = 45) {
@@ -309,7 +347,7 @@ $F9::
 	stackedDeck() {
 		if (WinActive("ahk_class POEWindowClass")) {
 			deckCount = 0
-			while (deckSwitch = true) && (deckCount < 11) {
+			while (autoToggle = true) and (deckCount < 11) {
 				MouseClick, right, 1298, 613, 1, 2
 				MouseClick, left, 1218, 613, 1, 2
 				MouseClick, right, 1298, 667, 1, 2
@@ -322,120 +360,282 @@ $F9::
 				MouseClick, left, 1218, 826, 1, 2
 				deckCount++
 			}
+			return
 		}
+		return
 	}
 	
-	stopFlasks() {
-		toggle := false
-		GuiControlGet, Logs
-		GuiControl,, Logs, Sleeping...
-		if (Timer = Blocked) {
-		GuiControlGet, Timer
-		GuiControl,,Timer,
-		GuiControl,-ReadOnly,Timer
+	buyProph() {
+		if (WinActive("ahk_class POEWindowClass")) {
+			coorX := 1298
+			coorY := 613
+			prophCount := 0
+			while (autoToggle = true) {
+				if (prophCount = 5) {
+					prophCount := 0
+					coorX := coorX + 52
+					coorY := 613
+				}
+				MouseClick, left, 336, 776, 1, 2
+				Sleep, 300
+				MouseClick, left, 425, 609, 1, 2
+				Sleep, 300
+				MouseClick, left, 836, 555, 1, 2
+				Sleep, 300
+				MouseClick, left, %coorX%, %coorY%, 1, 2
+				Sleep, 300
+				coorY := coorY + 50
+				prophCount++
+			}
+			return
 		}
-		if (Flasks = Blocked) {
-		GuiControlGet, Flasks
-		GuiControl,,Flasks,
-		GuiControl,-ReadOnly,Flasks
-		}
+		return
 	}
+	
+	inventoryToGround(){
+		if (WinActive("ahk_class POEWindowClass")) {
+			coorX := 1298
+			coorY := 613
+			coorCount := 0
+			while (autoToggle = true) {
+				if (coorCount = 5) {
+					coorCount := 0
+					coorX := coorX + 52
+					coorY := 613
+				}
+				MouseClick, left, %coorX%, %coorY%, 1, 2
+				MouseClick, left, 1196, 604, 1, 2
+				coorY := coorY + 50
+				coorCount++
+			}
+			return
+		}
+		return
+	}
+		
+	
+	/* works - deactivated - chancing
+	chancing() {
+		if (WinActive("ahk_class POEWindowClass")) {
+			while (chanceToggle) and (chanceCount < 21) {
+				if (chanceToggle) {
+					MouseClick, right, 1403, 613, 1, 2
+					MouseClick, left, 1298, 613, 1, 2
+					MouseClick, right, 1403, 667, 1, 2
+					MouseClick, left, 1298, 667, 1, 2
+					MouseClick, right, 1403, 721, 1, 2
+					MouseClick, left, 1298, 721, 1, 2
+					MouseClick, right, 1403, 772, 1, 2
+					MouseClick, left, 1298, 772, 1, 2
+					MouseClick, right, 1403, 826, 1, 2
+					MouseClick, left, 1298, 826, 1, 2
+					
+					MouseClick, right, 1666, 613, 1, 2
+					MouseClick, left, 1298, 613, 1, 2
+					MouseClick, right, 1666, 667, 1, 2
+					MouseClick, left, 1298, 667, 1, 2
+					MouseClick, right, 1666, 721, 1, 2
+					MouseClick, left, 1298, 721, 1, 2
+					MouseClick, right, 1666, 772, 1, 2
+					MouseClick, left, 1298, 772, 1, 2
+					MouseClick, right, 1666, 826, 1, 2
+					MouseClick, left, 1298, 826, 1, 2
+				}
+				if (chanceToggle) {
+					MouseClick, right, 1454, 613, 1, 2
+					MouseClick, left, 1298, 613, 1, 2
+					MouseClick, right, 1454, 667, 1, 2
+					MouseClick, left, 1298, 667, 1, 2
+					MouseClick, right, 1454, 721, 1, 2
+					MouseClick, left, 1298, 721, 1, 2
+					MouseClick, right, 1454, 772, 1, 2
+					MouseClick, left, 1298, 772, 1, 2
+					MouseClick, right, 1454, 826, 1, 2
+					MouseClick, left, 1298, 826, 1, 2
+					
+					MouseClick, right, 1718, 613, 1, 2
+					MouseClick, left, 1298, 613, 1, 2
+					MouseClick, right, 1718, 667, 1, 2
+					MouseClick, left, 1298, 667, 1, 2
+					MouseClick, right, 1718, 721, 1, 2
+					MouseClick, left, 1298, 721, 1, 2
+					MouseClick, right, 1718, 772, 1, 2
+					MouseClick, left, 1298, 772, 1, 2
+					MouseClick, right, 1718, 826, 1, 2
+					MouseClick, left, 1298, 826, 1, 2
+				}
+				if (chanceToggle) {
+					MouseClick, right, 1509, 613, 1, 2
+					MouseClick, left, 1298, 613, 1, 2
+					MouseClick, right, 1509, 667, 1, 2
+					MouseClick, left, 1298, 667, 1, 2
+					MouseClick, right, 1509, 721, 1, 2
+					MouseClick, left, 1298, 721, 1, 2
+					MouseClick, right, 1509, 772, 1, 2
+					MouseClick, left, 1298, 772, 1, 2
+					MouseClick, right, 1509, 826, 1, 2
+					MouseClick, left, 1298, 826, 1, 2
+					
+					MouseClick, right, 1771, 613, 1, 2
+					MouseClick, left, 1298, 613, 1, 2
+					MouseClick, right, 1771, 667, 1, 2
+					MouseClick, left, 1298, 667, 1, 2
+					MouseClick, right, 1771, 721, 1, 2
+					MouseClick, left, 1298, 721, 1, 2
+					MouseClick, right, 1771, 772, 1, 2
+					MouseClick, left, 1298, 772, 1, 2
+					MouseClick, right, 1771, 826, 1, 2
+					MouseClick, left, 1298, 826, 1, 2
+				}
+				if (chanceToggle) {
+					MouseClick, right, 1561, 613, 1, 2
+					MouseClick, left, 1298, 613, 1, 2
+					MouseClick, right, 1561, 667, 1, 2
+					MouseClick, left, 1298, 667, 1, 2
+					MouseClick, right, 1561, 721, 1, 2
+					MouseClick, left, 1298, 721, 1, 2
+					MouseClick, right, 1561, 772, 1, 2
+					MouseClick, left, 1298, 772, 1, 2
+					MouseClick, right, 1561, 826, 1, 2
+					MouseClick, left, 1298, 826, 1, 2
+					
+					MouseClick, right, 1823, 613, 1, 2
+					MouseClick, left, 1298, 613, 1, 2
+					MouseClick, right, 1823, 667, 1, 2
+					MouseClick, left, 1298, 667, 1, 2
+					MouseClick, right, 1823, 721, 1, 2
+					MouseClick, left, 1298, 721, 1, 2
+					MouseClick, right, 1823, 772, 1, 2
+					MouseClick, left, 1298, 772, 1, 2
+					MouseClick, right, 1823, 826, 1, 2
+					MouseClick, left, 1298, 826, 1, 2
+				}
+				if (chanceToggle) {
+					MouseClick, right, 1612, 613, 1, 2
+					MouseClick, left, 1298, 613, 1, 2
+					MouseClick, right, 1612, 667, 1, 2
+					MouseClick, left, 1298, 667, 1, 2
+					MouseClick, right, 1612, 721, 1, 2
+					MouseClick, left, 1298, 721, 1, 2
+					MouseClick, right, 1612, 772, 1, 2
+					MouseClick, left, 1298, 772, 1, 2
+					MouseClick, right, 1612, 826, 1, 2
+					MouseClick, left, 1298, 826, 1, 2
+					
+					MouseClick, right, 1877, 613, 1, 2
+					MouseClick, left, 1298, 613, 1, 2
+					MouseClick, right, 1877, 667, 1, 2
+					MouseClick, left, 1298, 667, 1, 2
+					MouseClick, right, 1877, 721, 1, 2
+					MouseClick, left, 1298, 721, 1, 2
+					MouseClick, right, 1877, 772, 1, 2
+					MouseClick, left, 1298, 772, 1, 2
+					MouseClick, right, 1877, 826, 1, 2
+					MouseClick, left, 1298, 826, 1, 2
+				}
+				chanceCount++
+			}
+			return
+		}
+		return
+	}
+	*/
 	
 	oneRow() {
 		if (WinActive("ahk_class POEWindowClass")) {
-			MouseClick, left, 1298, 613, 1, 2
-			MouseClick, left, 1298, 667, 1, 2
-			MouseClick, left, 1298, 721, 1, 2
-			MouseClick, left, 1298, 772, 1, 2
-			MouseClick, left, 1298, 826, 1, 2
+			MouseClick, left, 1298, 613, 1, 0
+			MouseClick, left, 1298, 667, 1, 0
+			MouseClick, left, 1298, 721, 1, 0
+			MouseClick, left, 1298, 772, 1, 0
+			MouseClick, left, 1298, 826, 1, 0
 		}
 	}
 	
 	twoRow() {
 		if (WinActive("ahk_class POEWindowClass")) {
 			oneRow()
-			MouseClick, left, 1350, 613, 1, 2
-			MouseClick, left, 1350, 667, 1, 2
-			MouseClick, left, 1350, 721, 1, 2
-			MouseClick, left, 1350, 772, 1, 2
-			MouseClick, left, 1350, 826, 1, 2
+			MouseClick, left, 1350, 613, 1, 0
+			MouseClick, left, 1350, 667, 1, 0
+			MouseClick, left, 1350, 721, 1, 0
+			MouseClick, left, 1350, 772, 1, 0
+			MouseClick, left, 1350, 826, 1, 0
 		}
 	}
 	
 	threeRow() {
 		if (WinActive("ahk_class POEWindowClass")) {
 			twoRow()
-			MouseClick, left, 1403, 613, 1, 2
-			MouseClick, left, 1403, 667, 1, 2
-			MouseClick, left, 1403, 721, 1, 2
-			MouseClick, left, 1403, 772, 1, 2
-			MouseClick, left, 1403, 826, 1, 2
+			MouseClick, left, 1403, 613, 1, 0
+			MouseClick, left, 1403, 667, 1, 0
+			MouseClick, left, 1403, 721, 1, 0
+			MouseClick, left, 1403, 772, 1, 0
+			MouseClick, left, 1403, 826, 1, 0
 		}
 	}
 	
 	fourRow() {
 		if (WinActive("ahk_class POEWindowClass")) {
 			threeRow()
-			MouseClick, left, 1454, 613, 1, 2
-			MouseClick, left, 1454, 667, 1, 2
-			MouseClick, left, 1454, 721, 1, 2
-			MouseClick, left, 1454, 772, 1, 2
-			MouseClick, left, 1454, 826, 1, 2
+			MouseClick, left, 1454, 613, 1, 0
+			MouseClick, left, 1454, 667, 1, 0
+			MouseClick, left, 1454, 721, 1, 0
+			MouseClick, left, 1454, 772, 1, 0
+			MouseClick, left, 1454, 826, 1, 0
 		}
 	}
 
 	fiveRow() {
 		if (WinActive("ahk_class POEWindowClass")) {
 			fourRow()
-			MouseClick, left, 1509, 613, 1, 2
-			MouseClick, left, 1509, 667, 1, 2
-			MouseClick, left, 1509, 721, 1, 2
-			MouseClick, left, 1509, 772, 1, 2
-			MouseClick, left, 1509, 826, 1, 2
+			MouseClick, left, 1509, 613, 1, 0
+			MouseClick, left, 1509, 667, 1, 0
+			MouseClick, left, 1509, 721, 1, 0
+			MouseClick, left, 1509, 772, 1, 0
+			MouseClick, left, 1509, 826, 1, 0
 		}
 	}
 	
 	sixRow() {
 		if (WinActive("ahk_class POEWindowClass")) {
 			fiveRow()
-			MouseClick, left, 1561, 613, 1, 2
-			MouseClick, left, 1561, 667, 1, 2
-			MouseClick, left, 1561, 721, 1, 2
-			MouseClick, left, 1561, 772, 1, 2
-			MouseClick, left, 1561, 826, 1, 2
+			MouseClick, left, 1561, 613, 1, 0
+			MouseClick, left, 1561, 667, 1, 0
+			MouseClick, left, 1561, 721, 1, 0
+			MouseClick, left, 1561, 772, 1, 0
+			MouseClick, left, 1561, 826, 1, 0
 		}
 	}
 	
 	sevenRow() {
 		if (WinActive("ahk_class POEWindowClass")) {
 			sixRow()
-			MouseClick, left, 1612, 613, 1, 2
-			MouseClick, left, 1612, 667, 1, 2
-			MouseClick, left, 1612, 721, 1, 2
-			MouseClick, left, 1612, 772, 1, 2
-			MouseClick, left, 1612, 826, 1, 2
+			MouseClick, left, 1612, 613, 1, 0
+			MouseClick, left, 1612, 667, 1, 0
+			MouseClick, left, 1612, 721, 1, 0
+			MouseClick, left, 1612, 772, 1, 0
+			MouseClick, left, 1612, 826, 1, 0
 		}
 	}
 	
 	eightRow() {
 		if (WinActive("ahk_class POEWindowClass")) {
 			sevenRow()
-			MouseClick, left, 1666, 613, 1, 2
-			MouseClick, left, 1666, 667, 1, 2
-			MouseClick, left, 1666, 721, 1, 2
-			MouseClick, left, 1666, 772, 1, 2
-			MouseClick, left, 1666, 826, 1, 2
+			MouseClick, left, 1666, 613, 1, 0
+			MouseClick, left, 1666, 667, 1, 0
+			MouseClick, left, 1666, 721, 1, 0
+			MouseClick, left, 1666, 772, 1, 0
+			MouseClick, left, 1666, 826, 1, 0
 		}
 	}
 	
 	nineRow() {
 		if (WinActive("ahk_class POEWindowClass")) {
 			eightRow()
-			MouseClick, left, 1718, 613, 1, 2
-			MouseClick, left, 1718, 667, 1, 2
-			MouseClick, left, 1718, 721, 1, 2
-			MouseClick, left, 1718, 772, 1, 2
-			MouseClick, left, 1718, 826, 1, 2
+			MouseClick, left, 1718, 613, 1, 0
+			MouseClick, left, 1718, 667, 1, 0
+			MouseClick, left, 1718, 721, 1, 0
+			MouseClick, left, 1718, 772, 1, 0
+			MouseClick, left, 1718, 826, 1, 0
 		}
 	}
 	
@@ -443,26 +643,27 @@ $F9::
 		if (WinActive("ahk_class POEWindowClass")) {
 			nineRow()
 			;Ten
-			MouseClick, left, 1771, 613, 1, 2
-			MouseClick, left, 1771, 667, 1, 2
-			MouseClick, left, 1771, 721, 1, 2
-			MouseClick, left, 1771, 772, 1, 2
-			MouseClick, left, 1771, 826, 1, 2
+			MouseClick, left, 1771, 613, 1, 0
+			MouseClick, left, 1771, 667, 1, 0
+			MouseClick, left, 1771, 721, 1, 0
+			MouseClick, left, 1771, 772, 1, 0
+			MouseClick, left, 1771, 826, 1, 0
 			;Eleven
-			MouseClick, left, 1823, 613, 1, 2
-			MouseClick, left, 1823, 667, 1, 2
-			MouseClick, left, 1823, 721, 1, 2
-			MouseClick, left, 1823, 772, 1, 2
-			MouseClick, left, 1823, 826, 1, 2
+			MouseClick, left, 1823, 613, 1, 0
+			MouseClick, left, 1823, 667, 1, 0
+			MouseClick, left, 1823, 721, 1, 0
+			MouseClick, left, 1823, 772, 1, 0
+			MouseClick, left, 1823, 826, 1, 0
 			;Twelve
-			MouseClick, left, 1877, 613, 1, 2
-			MouseClick, left, 1877, 667, 1, 2
-			MouseClick, left, 1877, 721, 1, 2
-			MouseClick, left, 1877, 772, 1, 2
-			MouseClick, left, 1877, 826, 1, 2
+			MouseClick, left, 1877, 613, 1, 0
+			MouseClick, left, 1877, 667, 1, 0
+			MouseClick, left, 1877, 721, 1, 0
+			MouseClick, left, 1877, 772, 1, 0
+			MouseClick, left, 1877, 826, 1, 0
 		}
 	}
 	
+	/* works - deactivated - getting maps
 	getMaps() {
 		if (WinActive("ahk_class POEWindowClass")) {
 				Send, {Control down}
@@ -539,7 +740,8 @@ $F9::
 	Send, {Control up}
 		}
 	}
-	
+	*/
+	/* works - deactivated - move maps right
 	moveMapsRight() {
 		if (WinActive("ahk_class POEWindowClass")) {
 			;erste 5 Maps
@@ -599,3 +801,4 @@ $F9::
 			MouseClick, left, 1671, 826, 1, 2
 		}
 	}
+	*/
