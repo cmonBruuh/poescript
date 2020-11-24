@@ -24,6 +24,14 @@ V2.2 Update:
 
 --------------------------------------------------------------------------------------------------------------------
 
+V2.3 Update:
+
+- Inventory to stash function is significantly faster now
+- Chancing function removed
+- Prophecy buy function added (read at the end of readme how to use it)
+- Inventory to ground function added (read at the end of readme how to use it)
+--------------------------------------------------------------------------------------------------------------------
+
 I have been using this script since the Legion League.
 
 It's not just a flask script but brings additional features.
@@ -37,7 +45,8 @@ First some important information:
 How do I download this script?
 
 - Download the zip
-- Start ONLY the master.exe or master.ahk file (that is up to what you prefer). You can ignore the other(Flask).exe/.ahk files.
+- Extract the zip to a random location
+- Start ONLY the master.ahk file. Ignore the other .ahk files/folders.
 - The script will open in the lower right corner of your screen (overlaps the mana display).
 
 ![snapshot](https://github.com/cmonBruuh/poescript/blob/master/Snapshot.PNG?raw=true)
@@ -68,25 +77,28 @@ Lvling:
 
 Button one, two, three, four and five:
 - third variant for Flasks
-- when this function is used, the other two functions cannot be used.
+- you can combine this function with the "Lvling" function
 - The individual buttons can be used to enter the milliseconds that should elapse between the activation of each flask.
 - This function is powerful, because you can specify the exact cool down time for each flask.
 - Example: In Flask Slot 1, I have a Life flask, so I don't have to enter anything. In the second ingame Flask Slot I use a Basalt Flask with 7sec. So I press the button "2" and enter 7000. Then I confirm with OK. I repeat this step for the other flasks I want to automate. The values will be saved and will stay on as long as the script is running.
 
 More functions (only possible with resolution 1920x1080):
 - These functions can be called via the help menu "?".
-- With F6 you fill your inventory with the maps from Map Stash. How? Open Map Stash (and right you have to have the inventory). You have to be at the map you want to transfer into your inventory. F6 fills the whole inventory with the selected map.
-- F7 applies a currency to the whole inventory. You have to have the inventory on the right and the stash on the left. You press right click on the currency and press F7. The currency will be applied to the whole inventory (e.g. alchemize all maps or identify many rings)
-- With F10 you move items from left to right in the inventory (I created this mainly for self use)
+- F7 applies a currency to the whole inventory. Right click the currency and press F7 to use the currency on the items in your inventory
+- F9 will buy you a whole inventory of prophecies. Go to Navali and leave the bottom right prophecy slot EMPTY
+- F10 opens stacked decks in the first row of your inventory and throws them to the ground (go to a area f.ex. menagerie for that)
+- F11 throws your whole inventory to the ground (go to a area f.ex. menagerie for that)
+- F12 abrubtly end function "Prophecy buy", "Open stacked decks", "Whole inventory to ground"
 - With CTRL+NUMPADX (X stands for a number) you transfer items in the inventory to the stash (or trade). A number stands for the number of columns in the inventory that can be transferred.
 
 Hotkeys:
 - F2: Start Flask Script
 - F3: Stop Flask Script
-- F6: Get Maps our of Map Stash
 - F7: Use Currency on inventory
-- F9: Spam stacked decks
-- F10: Move Items to right side in Inventory
+- F9: Prophecy buy
+- F10: Opens stacked decks in first row of inventory
+- F11: Throws inventory items to the ground
+- F12: Abrubtly ends function F9, F10 and F11
 - CTRL+NumpadX: Moves x Inventory columns to stash
 - CTRL+Numpad0: Moves all Inventory to stash
 
@@ -99,10 +111,23 @@ Spam:
 - If you want to abruptly end the macro click on Pause/Break again (first stop holding down the shift key!)
 - Click count must be between 1 and 999
 
+Prophecy buy:
+- Go to Navali
+- Fill up your prophecy until ONLY your bottom right prophecy slot is empty
+- Click F9 to fill your inventory with prophecies
+- End this function with F12 if you need to
+
 Spam stacked deck:
 - Line up 50 stacked decks in the left column in your inventory (10 per cell)
 - Go in a map or area (f.ex. blood aquedact act 9)
-- Click F9 to open 50 stacked decks very fast
-- You're not able to abruptly end this function (will be working on this soon)
+- Click F10 to open 50 stacked decks very fast
+- End this function with F12 if you need to
+
+Inventory to ground:
+- Go in a map or area (f.ex. blood aquedact act 9)
+- Open your inventory
+- Click F11 to throw all items on the ground
+- End this function with F12 if you need to
+
 
 If you have any questions leave me a message in Discord: DisWa#1276
