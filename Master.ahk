@@ -35,7 +35,7 @@ Gui, Add, Button, x40 y100 w23 h22 gSkillE, E
 Gui, Add, Button, x60 y100 w23 h22 gSkillR, R
 Gui, Add, Button, x80 y100 w23 h22 gSkillT, T
 Gui, Add, Button, x100 y60 w23 h22 vHelp gHelp, ?
-Gui, Show,% "x" A_ScreenWidth - 140 " y" A_ScreenHeight - 170 " w" 126 " h" 120, Script V2.3
+Gui, Show,% "x" A_ScreenWidth - 140 " y" A_ScreenHeight - 170 " w" 126 " h" 120, Script V2.3.1
 Gui, Color, 
 return
 
@@ -543,99 +543,99 @@ $F12::
 	
 	oneRow() {
 		if (WinActive("ahk_class POEWindowClass")) {
-			MouseClick, left, 1298, 613, 1, 0
-			MouseClick, left, 1298, 667, 1, 0
-			MouseClick, left, 1298, 721, 1, 0
-			MouseClick, left, 1298, 772, 1, 0
-			MouseClick, left, 1298, 826, 1, 0
+			MouseClick, left, 1298, 613, 1, 2
+			MouseClick, left, 1298, 667, 1, 2
+			MouseClick, left, 1298, 721, 1, 2
+			MouseClick, left, 1298, 772, 1, 2
+			MouseClick, left, 1298, 826, 1, 2
 		}
 	}
 	
 	twoRow() {
 		if (WinActive("ahk_class POEWindowClass")) {
 			oneRow()
-			MouseClick, left, 1350, 613, 1, 0
-			MouseClick, left, 1350, 667, 1, 0
-			MouseClick, left, 1350, 721, 1, 0
-			MouseClick, left, 1350, 772, 1, 0
-			MouseClick, left, 1350, 826, 1, 0
+			MouseClick, left, 1350, 613, 1, 2
+			MouseClick, left, 1350, 667, 1, 2
+			MouseClick, left, 1350, 721, 1, 2
+			MouseClick, left, 1350, 772, 1, 2
+			MouseClick, left, 1350, 826, 1, 2
 		}
 	}
 	
 	threeRow() {
 		if (WinActive("ahk_class POEWindowClass")) {
 			twoRow()
-			MouseClick, left, 1403, 613, 1, 0
-			MouseClick, left, 1403, 667, 1, 0
-			MouseClick, left, 1403, 721, 1, 0
-			MouseClick, left, 1403, 772, 1, 0
-			MouseClick, left, 1403, 826, 1, 0
+			MouseClick, left, 1403, 613, 1, 2
+			MouseClick, left, 1403, 667, 1, 2
+			MouseClick, left, 1403, 721, 1, 2
+			MouseClick, left, 1403, 772, 1, 2
+			MouseClick, left, 1403, 826, 1, 2
 		}
 	}
 	
 	fourRow() {
 		if (WinActive("ahk_class POEWindowClass")) {
 			threeRow()
-			MouseClick, left, 1454, 613, 1, 0
-			MouseClick, left, 1454, 667, 1, 0
-			MouseClick, left, 1454, 721, 1, 0
-			MouseClick, left, 1454, 772, 1, 0
-			MouseClick, left, 1454, 826, 1, 0
+			MouseClick, left, 1454, 613, 1, 2
+			MouseClick, left, 1454, 667, 1, 2
+			MouseClick, left, 1454, 721, 1, 2
+			MouseClick, left, 1454, 772, 1, 2
+			MouseClick, left, 1454, 826, 1, 2
 		}
 	}
 
 	fiveRow() {
 		if (WinActive("ahk_class POEWindowClass")) {
 			fourRow()
-			MouseClick, left, 1509, 613, 1, 0
-			MouseClick, left, 1509, 667, 1, 0
-			MouseClick, left, 1509, 721, 1, 0
-			MouseClick, left, 1509, 772, 1, 0
-			MouseClick, left, 1509, 826, 1, 0
+			MouseClick, left, 1509, 613, 1, 2
+			MouseClick, left, 1509, 667, 1, 2
+			MouseClick, left, 1509, 721, 1, 2
+			MouseClick, left, 1509, 772, 1, 2
+			MouseClick, left, 1509, 826, 1, 2
 		}
 	}
 	
 	sixRow() {
 		if (WinActive("ahk_class POEWindowClass")) {
 			fiveRow()
-			MouseClick, left, 1561, 613, 1, 0
-			MouseClick, left, 1561, 667, 1, 0
-			MouseClick, left, 1561, 721, 1, 0
-			MouseClick, left, 1561, 772, 1, 0
-			MouseClick, left, 1561, 826, 1, 0
+			MouseClick, left, 1561, 613, 1, 2
+			MouseClick, left, 1561, 667, 1, 2
+			MouseClick, left, 1561, 721, 1, 2
+			MouseClick, left, 1561, 772, 1, 2
+			MouseClick, left, 1561, 826, 1, 2
 		}
 	}
 	
 	sevenRow() {
 		if (WinActive("ahk_class POEWindowClass")) {
 			sixRow()
-			MouseClick, left, 1612, 613, 1, 0
-			MouseClick, left, 1612, 667, 1, 0
-			MouseClick, left, 1612, 721, 1, 0
-			MouseClick, left, 1612, 772, 1, 0
-			MouseClick, left, 1612, 826, 1, 0
+			MouseClick, left, 1612, 613, 1, 2
+			MouseClick, left, 1612, 667, 1, 2
+			MouseClick, left, 1612, 721, 1, 2
+			MouseClick, left, 1612, 772, 1, 2
+			MouseClick, left, 1612, 826, 1, 2
 		}
 	}
 	
 	eightRow() {
 		if (WinActive("ahk_class POEWindowClass")) {
 			sevenRow()
-			MouseClick, left, 1666, 613, 1, 0
-			MouseClick, left, 1666, 667, 1, 0
-			MouseClick, left, 1666, 721, 1, 0
-			MouseClick, left, 1666, 772, 1, 0
-			MouseClick, left, 1666, 826, 1, 0
+			MouseClick, left, 1666, 613, 1, 2
+			MouseClick, left, 1666, 667, 1, 2
+			MouseClick, left, 1666, 721, 1, 2
+			MouseClick, left, 1666, 772, 1, 2
+			MouseClick, left, 1666, 826, 1, 2
 		}
 	}
 	
 	nineRow() {
 		if (WinActive("ahk_class POEWindowClass")) {
 			eightRow()
-			MouseClick, left, 1718, 613, 1, 0
-			MouseClick, left, 1718, 667, 1, 0
-			MouseClick, left, 1718, 721, 1, 0
-			MouseClick, left, 1718, 772, 1, 0
-			MouseClick, left, 1718, 826, 1, 0
+			MouseClick, left, 1718, 613, 1, 2
+			MouseClick, left, 1718, 667, 1, 2
+			MouseClick, left, 1718, 721, 1, 2
+			MouseClick, left, 1718, 772, 1, 2
+			MouseClick, left, 1718, 826, 1, 2
 		}
 	}
 	
@@ -643,23 +643,23 @@ $F12::
 		if (WinActive("ahk_class POEWindowClass")) {
 			nineRow()
 			;Ten
-			MouseClick, left, 1771, 613, 1, 0
-			MouseClick, left, 1771, 667, 1, 0
-			MouseClick, left, 1771, 721, 1, 0
-			MouseClick, left, 1771, 772, 1, 0
-			MouseClick, left, 1771, 826, 1, 0
+			MouseClick, left, 1771, 613, 1, 2
+			MouseClick, left, 1771, 667, 1, 2
+			MouseClick, left, 1771, 721, 1, 2
+			MouseClick, left, 1771, 772, 1, 2
+			MouseClick, left, 1771, 826, 1, 2
 			;Eleven
-			MouseClick, left, 1823, 613, 1, 0
-			MouseClick, left, 1823, 667, 1, 0
-			MouseClick, left, 1823, 721, 1, 0
-			MouseClick, left, 1823, 772, 1, 0
-			MouseClick, left, 1823, 826, 1, 0
+			MouseClick, left, 1823, 613, 1, 2
+			MouseClick, left, 1823, 667, 1, 2
+			MouseClick, left, 1823, 721, 1, 2
+			MouseClick, left, 1823, 772, 1, 2
+			MouseClick, left, 1823, 826, 1, 2
 			;Twelve
-			MouseClick, left, 1877, 613, 1, 0
-			MouseClick, left, 1877, 667, 1, 0
-			MouseClick, left, 1877, 721, 1, 0
-			MouseClick, left, 1877, 772, 1, 0
-			MouseClick, left, 1877, 826, 1, 0
+			MouseClick, left, 1877, 613, 1, 2
+			MouseClick, left, 1877, 667, 1, 2
+			MouseClick, left, 1877, 721, 1, 2
+			MouseClick, left, 1877, 772, 1, 2
+			MouseClick, left, 1877, 826, 1, 2
 		}
 	}
 	
