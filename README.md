@@ -24,7 +24,7 @@ V2.2 Update:
 
 --------------------------------------------------------------------------------------------------------------------
 
-V2.3 Update:
+V2.3.0 Update:
 
 - Inventory to stash function is significantly faster now
 - Chancing function removed
@@ -32,6 +32,12 @@ V2.3 Update:
 - Get maps out of map stash function removed
 - Prophecy buy function added (read at the end of readme how to use it)
 - Inventory to ground function added (read at the end of readme how to use it)
+--------------------------------------------------------------------------------------------------------------------
+
+V2.3.1 Update:
+
+- Inventory to stash function speed from V2.3.0 reverted to its original speed (because trading became suspicious)
+
 --------------------------------------------------------------------------------------------------------------------
 
 I have been using this script since the Legion League.
@@ -56,6 +62,17 @@ How do I download this script?
 Functions:
 
 - You can use the "?" button to view all functions. A new window with the functions will open. With another click on "?" you can hide the information again.
+
+Hotkeys:
+- F2: Start Flask Script
+- F3: Stop Flask Script
+- F7: Use Currency on inventory
+- F9: Prophecy buy
+- F10: Opens stacked decks in first row of inventory
+- F11: Throws inventory items to the ground
+- F12: Abrubtly ends function F9, F10 and F11
+- CTRL+NumpadX: Moves x Inventory columns to stash
+- CTRL+Numpad0: Moves all Inventory to stash
 
 Flasks and Timer:
 - There are three different ways to use the Flask script.
@@ -92,17 +109,6 @@ More functions (only possible with resolution 1920x1080):
 - F11 throws your whole inventory to the ground (go to a area f.ex. menagerie for that)
 - F12 abrubtly end function "Prophecy buy", "Open stacked decks", "Whole inventory to ground"
 - With CTRL+NUMPADX (X stands for a number) you transfer items in the inventory to the stash (or trade). A number stands for the number of columns in the inventory that can be transferred.
-
-Hotkeys:
-- F2: Start Flask Script
-- F3: Stop Flask Script
-- F7: Use Currency on inventory
-- F9: Prophecy buy
-- F10: Opens stacked decks in first row of inventory
-- F11: Throws inventory items to the ground
-- F12: Abrubtly ends function F9, F10 and F11
-- CTRL+NumpadX: Moves x Inventory columns to stash
-- CTRL+Numpad0: Moves all Inventory to stash
 
 Spam:
 - This function is useful for 6-socketing or 6-linking an item where you want to spam Jeweller's/Fusing Orbs
