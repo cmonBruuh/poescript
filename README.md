@@ -1,17 +1,27 @@
 # poescript
 
-V2.0 Update:
 
-- Added skills to be automated (read the Flasks and Timer section for this)
-- Updated repo
-- Removed EXE files which means you need AHK to execute the script
+V2.3.1 Update:
+
+- Inventory to stash with CTRL+Numpad+ is fast again (STRONGLY RECOMMEND NOT USING FOR TRADE)
+- Hotkey setup with "Hotkeys.ahk" (except Inventory to stash function)
 
 --------------------------------------------------------------------------------------------------------------------
 
-V2.1 Update:
+V2.3.1 Update:
 
-- Added a currency spam (f.ex. fusing)
-- Read the section "Spam" in this file for more information
+- Inventory to stash function speed from V2.3.0 reverted to its original speed (because trading became suspicious)
+
+--------------------------------------------------------------------------------------------------------------------
+
+V2.3.0 Update:
+
+- Inventory to stash function is significantly faster now
+- Chancing function removed
+- Move Maps to right function removed
+- Get maps out of map stash function removed
+- Prophecy buy function added (read at the end of readme how to use it)
+- Inventory to ground function added (read at the end of readme how to use it)
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -24,19 +34,18 @@ V2.2 Update:
 
 --------------------------------------------------------------------------------------------------------------------
 
-V2.3.0 Update:
+V2.1 Update:
 
-- Inventory to stash function is significantly faster now
-- Chancing function removed
-- Move Maps to right function removed
-- Get maps out of map stash function removed
-- Prophecy buy function added (read at the end of readme how to use it)
-- Inventory to ground function added (read at the end of readme how to use it)
+- Added a currency spam (f.ex. fusing)
+- Read the section "Spam" in this file for more information
+
 --------------------------------------------------------------------------------------------------------------------
 
-V2.3.1 Update:
+V2.0 Update:
 
-- Inventory to stash function speed from V2.3.0 reverted to its original speed (because trading became suspicious)
+- Added skills to be automated (read the Flasks and Timer section for this)
+- Updated repo
+- Removed EXE files which means you need AHK to execute the script
 
 --------------------------------------------------------------------------------------------------------------------
 
