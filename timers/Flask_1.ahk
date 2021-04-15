@@ -1,4 +1,11 @@
 #SingleInstance, Force
+
+IniRead, Start, %A_ScriptDir%\Hotkeys.ini, Hotkeys, Start
+IniRead, Stop, %A_ScriptDir%\Hotkeys.ini, Hotkeys, Stop
+
+Hotkey,~%Start%,StartHK
+Hotkey,~%Stop%,StopHK
+
 Gui, -MaximizeBox -MinimizeBox
 
 global toggle = false
@@ -25,12 +32,12 @@ OK:
 	}
 	WinHide, Flask 1
 
-~$F2::
+StartHK:
 	toggle := true
 	runTimer1()
 	return
 
-~$F3::
+StopHK:
 	toggle := false
 	return
 	

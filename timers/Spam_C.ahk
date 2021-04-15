@@ -1,4 +1,5 @@
 #SingleInstance, Force
+
 Gui, -MaximizeBox -MinimizeBox
 
 global toggle = false
@@ -15,7 +16,7 @@ return
 GuiClose:
 ExitApp
 
-+Pause::
++Home::
 	if (toggle) {
 		toggle := false
 		return
@@ -33,7 +34,7 @@ ExitApp
 	}
 	return
 	
-$Pause::
+$Home::
 	toggle:= false
 	return
 

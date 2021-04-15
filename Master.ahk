@@ -5,13 +5,31 @@ global switch = false
 global autoToggle = false
 global deckCount
 global chanceCount
+global prophCount
+global coorCount
 global timer
 global flasks
 global mapFound = false
 global coorY
 global coorX
-global prophCount
-global coorCount
+
+IniRead, Start, %A_ScriptDir%\timers\Hotkeys.ini, Hotkeys, Start
+IniRead, Stop, %A_ScriptDir%\timers\Hotkeys.ini, Hotkeys, Stop
+IniRead, Currency, %A_ScriptDir%\timers\Hotkeys.ini, Hotkeys, Currency
+IniRead, Proph, %A_ScriptDir%\timers\Hotkeys.ini, Hotkeys, Proph
+IniRead, Decks, %A_ScriptDir%\timers\Hotkeys.ini, Hotkeys, Decks
+IniRead, Inv, %A_ScriptDir%\timers\Hotkeys.ini, Hotkeys, Inv
+;IniRead, Spam, %A_ScriptDir%\timers\Hotkeys.ini, Hotkeys, Spam
+IniRead, End, %A_ScriptDir%\timers\Hotkeys.ini, Hotkeys, End
+
+Hotkey,%Start%,StartHK
+Hotkey,%Stop%,StopHK
+Hotkey,%Currency%,CurrencyHK
+Hotkey,%Proph%,ProphHK
+Hotkey,%Decks%,DecksHK
+Hotkey,%Inv%,InvHK
+;Hotkey,%Spam%,SpamHK 
+Hotkey,%End%,EndHK
 
 Gui,+AlwaysOnTop
 Gui, -MaximizeBox -MinimizeBox
@@ -35,6 +53,7 @@ Gui, Add, Button, x40 y100 w23 h22 gSkillE, E
 Gui, Add, Button, x60 y100 w23 h22 gSkillR, R
 Gui, Add, Button, x80 y100 w23 h22 gSkillT, T
 Gui, Add, Button, x100 y60 w23 h22 vHelp gHelp, ?
+Gui, Add, Button, x100 y80 w23 h22 vHK gHK, HK
 Gui, Show,% "x" A_ScreenWidth - 140 " y" A_ScreenHeight - 170 " w" 126 " h" 120, Script V2.3.1
 Gui, Color, 
 return
@@ -79,7 +98,7 @@ Spam:
 Help:
 	if (switch = false) {
 		switch := true
-		ToolTip, F2 = Start Flasks`nF3 = Stop Flasks`nF7 = Right click a currency and then press F7 to use that currency on all items inside inventory`nF9 = Buy prophecies (leave out bottom right for this)`nF10 = Open Stacked decks in first row`nF12 = Abrubtly ends script`nF11 = Throws all items from your inventory to the ground`nF12 = Abrubtly ends script`nCtrl + Numpadx = Moves x column Inventory to stash`nCtrl + Numpad0 = Moves all Inventory to stash`n, 100, 150
+		ToolTip, %Start% = Start Flasks`n%Stop% = Stop Flasks`n%Currency% = Right click a currency and then press F7 to use that currency on all items inside inventory`n%Proph% = Buy prophecies (leave out bottom right for this)`n%Decks% = Open Stacked decks in first row`n%Inv% = Throws all items from your inventory to the ground`n%End% = Abrubtly ends script`nCtrl + Numpadx = Moves x column Inventory to stash`nCtrl + Numpad0 = Moves all Inventory to stash`nCtrl + Numpad+ = Moves all Inventory to stash VERY FAST (do not use for trades!!!)`n, 100, 150
 	} else {
 		switch := false
 		RemoveToolTip:
@@ -87,8 +106,12 @@ Help:
 		return
 	}
 	return
+	
+HK:
+	Run %A_ScriptDir%\Hotkeys.ahk
+	return
 
-$F2::
+StartHK:
 	Gui, Submit, NoHide
 	toggle := true
 	GuiControlGet, Timer
@@ -118,7 +141,7 @@ $F2::
 	}
 	return
 	
-$F3::
+StopHK:
 	stopFlasks()
 	return
 
@@ -152,6 +175,9 @@ $F3::
 ^Numpad0::
 	twelveRow()
 	return
+^NumpadAdd::
+	fastInventoryToStash()
+	return
 	
 /* Removed getting Maps	
 $F6::
@@ -159,7 +185,7 @@ $F6::
 	return
 */
 
-$F7::
+CurrencyHK:
 	/* NEW VERSION WITH ALL CURRENCY POSSIBLE 
 	*/
 	Send, {Shift down}
@@ -174,17 +200,17 @@ $F7::
 	*/
 	return
 	
-$F9::
+ProphHK:
 	autoToggle := true
 	buyProph()
 	return
 
-$F10::
+DecksHK:
 	autoToggle := true
 	stackedDeck()
 	return
 	
-$F11::
+InvHK:
 	autoToggle := true
 	inventoryToGround()
 	return
@@ -196,10 +222,11 @@ $F11::
 	return
 */
 
-$F12::
+EndHK:
 	autoToggle := false
 	chanceCount := 0
 	deckCount := 0
+	coorCount := 0
 	return
 	
 	runFlasks() {
@@ -662,6 +689,84 @@ $F12::
 			MouseClick, left, 1877, 826, 1, 2
 		}
 	}
+	
+	fastInventoryToStash() {
+		if (WinActive("ahk_class POEWindowClass")) {
+			;1
+			MouseClick, left, 1298, 613, 1, 0
+			MouseClick, left, 1298, 667, 1, 0
+			MouseClick, left, 1298, 721, 1, 0
+			MouseClick, left, 1298, 772, 1, 0
+			MouseClick, left, 1298, 826, 1, 0
+			;2
+			MouseClick, left, 1350, 613, 1, 0
+			MouseClick, left, 1350, 667, 1, 0
+			MouseClick, left, 1350, 721, 1, 0
+			MouseClick, left, 1350, 772, 1, 0
+			MouseClick, left, 1350, 826, 1, 0
+			;3
+			MouseClick, left, 1403, 613, 1, 0
+			MouseClick, left, 1403, 667, 1, 0
+			MouseClick, left, 1403, 721, 1, 0
+			MouseClick, left, 1403, 772, 1, 0
+			MouseClick, left, 1403, 826, 1, 0
+			;4
+			MouseClick, left, 1454, 613, 1, 0
+			MouseClick, left, 1454, 667, 1, 0
+			MouseClick, left, 1454, 721, 1, 0
+			MouseClick, left, 1454, 772, 1, 0
+			MouseClick, left, 1454, 826, 1, 0
+			;5
+			MouseClick, left, 1509, 613, 1, 0
+			MouseClick, left, 1509, 667, 1, 0
+			MouseClick, left, 1509, 721, 1, 0
+			MouseClick, left, 1509, 772, 1, 0
+			MouseClick, left, 1509, 826, 1, 0
+			;6
+			MouseClick, left, 1561, 613, 1, 0
+			MouseClick, left, 1561, 667, 1, 0
+			MouseClick, left, 1561, 721, 1, 0
+			MouseClick, left, 1561, 772, 1, 0
+			MouseClick, left, 1561, 826, 1, 0
+			;7
+			MouseClick, left, 1612, 613, 1, 0
+			MouseClick, left, 1612, 667, 1, 0
+			MouseClick, left, 1612, 721, 1, 0
+			MouseClick, left, 1612, 772, 1, 0
+			MouseClick, left, 1612, 826, 1, 0
+			;8
+			MouseClick, left, 1666, 613, 1, 0
+			MouseClick, left, 1666, 667, 1, 0
+			MouseClick, left, 1666, 721, 1, 0
+			MouseClick, left, 1666, 772, 1, 0
+			MouseClick, left, 1666, 826, 1, 0
+			;9
+			MouseClick, left, 1718, 613, 1, 0
+			MouseClick, left, 1718, 667, 1, 0
+			MouseClick, left, 1718, 721, 1, 0
+			MouseClick, left, 1718, 772, 1, 0
+			MouseClick, left, 1718, 826, 1, 0
+			;10
+			MouseClick, left, 1771, 613, 1, 0
+			MouseClick, left, 1771, 667, 1, 0
+			MouseClick, left, 1771, 721, 1, 0
+			MouseClick, left, 1771, 772, 1, 0
+			MouseClick, left, 1771, 826, 1, 0
+			;11
+			MouseClick, left, 1823, 613, 1, 0
+			MouseClick, left, 1823, 667, 1, 0
+			MouseClick, left, 1823, 721, 1, 0
+			MouseClick, left, 1823, 772, 1, 0
+			MouseClick, left, 1823, 826, 1, 0
+			;12
+			MouseClick, left, 1877, 613, 1, 0
+			MouseClick, left, 1877, 667, 1, 0
+			MouseClick, left, 1877, 721, 1, 0
+			MouseClick, left, 1877, 772, 1, 0
+			MouseClick, left, 1877, 826, 1, 0
+		}
+	}
+	
 	
 	/* works - deactivated - getting maps
 	getMaps() {
