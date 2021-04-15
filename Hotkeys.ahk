@@ -21,7 +21,7 @@ Gui, Add, Hotkey, x152 y99 w180 h30 vCurrency, %Currency%
 Gui, Add, Hotkey, x152 y139 w180 h30 vProph, %Proph%
 Gui, Add, Hotkey, x152 y179 w180 h30 vDecks, %Decks%
 Gui, Add, Hotkey, x152 y219 w180 h30 vInv, %Inv%
-Gui, Add, Edit, x152 y259 w180 h30 -VScroll +ReadOnly vSpam, SHIFT+Home
+Gui, Add, Edit, x152 y259 w180 h30 -VScroll +ReadOnly vSpam, SHIFT+Pause/break
 Gui, Add, Hotkey, x152 y299 w180 h30 vEnd, %End%
 Gui, Add, Button, x12 y339 w130 h30 gSave, Save
 Gui, Add, Button, x182 y339 w130 h30 gCancel, Cancel
