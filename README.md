@@ -1,7 +1,7 @@
 # poescript
 
 
-V2.3.1 Update:
+V2.4 Update:
 
 - Inventory to stash with CTRL+Numpad+ is fast again (STRONGLY RECOMMEND NOT USING FOR TRADE)
 - Hotkey setup with "Hotkeys.ahk" (except Inventory to stash function)
