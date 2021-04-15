@@ -16,7 +16,7 @@ return
 GuiClose:
 ExitApp
 
-+Home::
++Pause::
 	if (toggle) {
 		toggle := false
 		return
@@ -34,7 +34,7 @@ ExitApp
 	}
 	return
 	
-$Home::
+$Pause::
 	toggle:= false
 	return
 
