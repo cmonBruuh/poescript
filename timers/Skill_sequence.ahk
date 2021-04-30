@@ -31,6 +31,10 @@ Save:
 		MsgBox, All fields must be filled.
 		return
 	}
+	if (elatimer < 400) {
+		MsgBox, Timer must be above 400ms
+		return
+	}
 	Hotkey,~%Skill1%,SkillHK
 	WinHide, Skills in sequence
 	return
