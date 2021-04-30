@@ -1,8 +1,8 @@
 # poescript
 
-
 V2.4 Update:
 
+- NEW FUNCTION: SKILL SEQUENCE (read at the end of this readme for more info)
 - Inventory to stash with CTRL+Numpad+ is fast again (STRONGLY RECOMMEND NOT USING FOR TRADE)
 - Hotkey setup with "Hotkeys.ahk" (except Inventory to stash function)
 
@@ -146,5 +146,10 @@ Inventory to ground:
 - Click F11 to throw all items on the ground
 - End this function with F12 if you need to
 
+Skill Sequence (SQ):
+- Lets you define a skill (Letter) which will be executed automatically after you pressed a skill (Letter)
+- Skill 1 is the key you press for your main skill (f.ex. Bladefall)
+- Skill 2 is the key THAT will be pressed after a defined time (f.ex. 
+- Elapsetimer defines how many MILLISECONDS are elapsing between your keypress and the automatic execution of Skill 2 
 
 If you have any questions leave me a message in Discord: Saibot#1276
