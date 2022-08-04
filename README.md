@@ -1,5 +1,21 @@
 # poescript
 
+V3.0 Update:
+
+- Prophecy buy function removed
+- Throws inventory items to the ground function removed
+- Removed the "Blocked" state
+
+- Added support for resolution 1920x800
+- Resolution can be changed in the "window.ini" file (default is set to 1920x1080)
+- You can configure the coordinates of your inventory for "Inventory to stash" function
+- Introduced a "Hideout" Button which you can click to get to your hideout
+- You can abrubtly end any function now with F12 (default Hotkey)
+
+...and more smaller things
+
+--------------------------------------------------------------------------------------------------------------------
+
 V2.4 Update:
 
 - NEW FUNCTION: SKILL SEQUENCE (read at the end of this readme for more info)
@@ -56,15 +72,15 @@ It's not just a flask script but brings additional features.
 First some important information:
 
 - AHK must be downloaded.
-- I do not take any liability for bans. I can say that I have been using the script for a while and nothing has happened yet. I think a big part of the POE community uses Flask Scripts or similar.
-- This script only supports 1920x1080 display. Other resolutions I have not tested. If the script is only used for Flasks, it should work with other resolutions as well.
+- I take no responsibility for bans. 
+- This script is against GGG TOS
 
 How do I download this script?
 
 - Download the zip
 - Extract the zip to a random location
 - Start ONLY the master.ahk file. Ignore the other .ahk files/folders.
-- The script will open in the lower right corner of your screen (overlaps the mana display).
+- The script will open in the lower right corner of your screen .
 
 ![snapshot](https://github.com/cmonBruuh/poescript/blob/master/Snapshot.PNG?raw=true)
 
@@ -76,9 +92,7 @@ Hotkeys:
 - F2: Start Flask Script
 - F3: Stop Flask Script
 - F7: Use Currency on inventory
-- F9: Prophecy buy
 - F10: Opens stacked decks in first row of inventory
-- F11: Throws inventory items to the ground
 - F12: Abrubtly ends function F9, F10 and F11
 - CTRL+NumpadX: Moves x Inventory columns to stash
 - CTRL+Numpad0: Moves all Inventory to stash
@@ -103,20 +117,18 @@ Lvling:
 45 and 345
 - Example: I use a Quicksilver Flask in slot 3 4 and 5. All last 4 seconds (4000 milliseconds). I enter 345 in the field "Flasks", 4000 in the field "Timer" and activate "Lvling".
 
-Button one, two, three, four and five:
+Button 1, 2, 3, 4 and 5:
 - third variant for Flasks
 - you can combine this function with the "Lvling" function
 - The individual buttons can be used to enter the milliseconds that should elapse between the activation of each flask.
 - This function is powerful, because you can specify the exact cool down time for each flask.
 - Example: In Flask Slot 1, I have a Life flask, so I don't have to enter anything. In the second ingame Flask Slot I use a Basalt Flask with 7sec. So I press the button "2" and enter 7000. Then I confirm with OK. I repeat this step for the other flasks I want to automate. The values will be saved and will stay on as long as the script is running.
 
-More functions (only possible with resolution 1920x1080):
-- These functions can be called via the help menu "?".
+More functions:
+- Spam can be helpful if you want to 6 Link or 6 Socket an item and need to spam currency
 - F7 applies a currency to the whole inventory. Right click the currency and press F7 to use the currency on the items in your inventory
-- F9 will buy you a whole inventory of prophecies. Go to Navali and leave the bottom right prophecy slot EMPTY
 - F10 opens stacked decks in the first row of your inventory and throws them to the ground (go to a area f.ex. menagerie for that)
-- F11 throws your whole inventory to the ground (go to a area f.ex. menagerie for that)
-- F12 abrubtly end function "Prophecy buy", "Open stacked decks", "Whole inventory to ground"
+- F12 abrubtly end functions
 - With CTRL+NUMPADX (X stands for a number) you transfer items in the inventory to the stash (or trade). A number stands for the number of columns in the inventory that can be transferred.
 
 Spam:
@@ -128,28 +140,54 @@ Spam:
 - If you want to abruptly end the macro click on Pause/Break again (first stop holding down the shift key!)
 - Click count must be between 1 and 999
 
-Prophecy buy:
-- Go to Navali
-- Fill up your prophecy until ONLY your bottom right prophecy slot is empty
-- Click F9 to fill your inventory with prophecies
-- End this function with F12 if you need to
+Use Currency on inventory:
+- Very helpful if you want to prepare maps
+- Right Click a Currency (f.ex. Chisel, Alchs) and click your Hotkey (default F7)
+- It will use this currency on your whole inventory
+- End this function with your End Hotkeys (default F12) if you need to 
 
-Spam stacked deck:
+Stacked deck:
 - Line up 50 stacked decks in the left column in your inventory (10 per cell)
 - Go in a map or area (f.ex. blood aquedact act 9)
-- Click F10 to open 50 stacked decks very fast
-- End this function with F12 if you need to
-
-Inventory to ground:
-- Go in a map or area (f.ex. blood aquedact act 9)
-- Open your inventory
-- Click F11 to throw all items on the ground
-- End this function with F12 if you need to
+- Click F11 to open 50 stacked decks very fast
+- End this function with your End Hotkeys (default F12) if you need to 
 
 Skill Sequence (SQ):
 - Lets you define a skill (Letter) which will be executed automatically after you pressed a skill (Letter)
 - Skill 1 is the key you press for your main skill (f.ex. Bladefall)
 - Skill 2 is the key THAT will be pressed after a defined time (f.ex. 
-- Elapsetimer defines how many MILLISECONDS are elapsing between your keypress and the automatic execution of Skill 2 
+- Elapsetimer defines how many MILLISECONDS are elapsing between your keypress and the automatic execution of Skill 2
 
-If you have any questions leave me a message in Discord: Saibot#1276
+Save timers:
+- You can save your timers in the Timers.ini inside the Timers folder
+- Setup your timers which will be saved until you change it again in this file
+- When you start your script you don't have to manually enter any of the timers again. Just click on each saved button and it will detect it.
+- You can still enter the timers the old way through the buttons
+- timers in the .ini file are set to null (that means nothing/empty) - so make sure if you remove timers again that you remove also backspaces
+
+Resolution:
+- Only 1920x1080 and 1920x800 are supported
+- If they don't match your resolution read the introduction to coordinates below
+
+Setup your own inventory coordinates:
+- Open windowsspy.ahk and coordinates.ini inside your settings folder
+- Now we need to find the coordinate of the top left cell and the bottom right cell in your inventory
+- (Imagine a rectangle where you want to find out the top left and bottom right point on the rectangle)
+- Move your mouse to the center of that small cell on the top left and note the mouse coordinates (Window: xxxx, xxx (default)
+(- You have to make sure that you're in POE and that on the top of windowsspy.ahk it says poe)
+- Repeat the same thing for the bottom right cell of your inventory
+- Now that you have these coordinates you want to do the following:
+	xStart="Top Left First Number (x)"
+	yStart="Top Left Second Number (y)"
+	xEnd="Bottom Right First Number (x)"
+	yEnd="Bottom Right Second Number (y)"
+- It should look like something like this:
+	xStart=1256
+	yStart=632
+	xEnd=1478
+	yEnd=876
+- Save the file and restart the script
+- If you use any function it should automatically detect your coordinates
+
+
+If you have any questions leave me a message in Discord: Near#2133

@@ -4,59 +4,77 @@ global toggle = false
 global switch = false
 global autoToggle = false
 global deckCount
-global chanceCount
-global prophCount
 global coorCount
 global timer
 global flasks
 global mapFound = false
-global coorY
-global coorX
+global startingX
+global startingY
+global endingX
+global endingY
 
 IniRead, Start, %A_ScriptDir%\timers\Hotkeys.ini, Hotkeys, Start
 IniRead, Stop, %A_ScriptDir%\timers\Hotkeys.ini, Hotkeys, Stop
 IniRead, Currency, %A_ScriptDir%\timers\Hotkeys.ini, Hotkeys, Currency
-IniRead, Proph, %A_ScriptDir%\timers\Hotkeys.ini, Hotkeys, Proph
 IniRead, Decks, %A_ScriptDir%\timers\Hotkeys.ini, Hotkeys, Decks
-IniRead, Inv, %A_ScriptDir%\timers\Hotkeys.ini, Hotkeys, Inv
 ;IniRead, Spam, %A_ScriptDir%\timers\Hotkeys.ini, Hotkeys, Spam
 IniRead, End, %A_ScriptDir%\timers\Hotkeys.ini, Hotkeys, End
+
+IniRead, xCoor, %A_ScriptDir%\settings\window.ini, Coordinates, x
+IniRead, yCoor, %A_ScriptDir%\settings\window.ini, Coordinates, y
+
+IniRead, xStartCoor, %A_ScriptDir%\settings\coordinates.ini, Coordinates, xStart
+IniRead, yStartCoor, %A_ScriptDir%\settings\coordinates.ini, Coordinates, yStart
+IniRead, xEndCoor, %A_ScriptDir%\settings\coordinates.ini, Coordinates, xEnd
+IniRead, yEndCoor, %A_ScriptDir%\settings\coordinates.ini, Coordinates, yEnd
 
 Hotkey,%Start%,StartHK
 Hotkey,%Stop%,StopHK
 Hotkey,%Currency%,CurrencyHK
-Hotkey,%Proph%,ProphHK
 Hotkey,%Decks%,DecksHK
-Hotkey,%Inv%,InvHK
-;Hotkey,%Spam%,SpamHK 
 Hotkey,%End%,EndHK
+Hotkey,+%End%,EndCurrHK
+
+global xCoor := xCoor
+global yCoor := yCoor
+
+global xStartCoor := xStartCoor
+global yStartCoor := yStartCoor
+global xEndCoor := xEndCoor
+global yEndCoor := yEndCoor
+
+checkReso()
 
 Gui,+AlwaysOnTop
 Gui, -MaximizeBox -MinimizeBox
 Gui, Add, Text, x1 y0 w52 h20 , Flasks
 Gui, Add, Text, x1 y20 w52 h20 , Timer
 Gui, Add, Text, x1 y40 w52 h20 , State
-Gui, Add, Text, x1 y60 w52 h20 , Lvling
-Gui, Add, Edit, x53 y0 w69 h20 -VScroll vFlasks,
-Gui, Add, Edit, x53 y20 w69 h20 -VScroll vTimer,
-Gui, Add, Edit, x53 y40 w69 h20 -VScroll +ReadOnly vLogs, Sleeping...
-Gui, Add, CheckBox, x30 y58 w25 h20 vQuick,
-Gui, Add, Button, x62 y60 w40 h22 gSpam, Spam
+Gui, Add, Text, x1 y63 w52 h20 , Lvling
+Gui, Add, Button, x60 y60 w52 h20 gHideout, Hideout
+Gui, Add, Edit, x53 y0 w65 h20 -VScroll vFlasks,
+Gui, Add, Edit, x53 y20 w65 h20 -VScroll vTimer,
+Gui, Add, Edit, x53 y40 w65 h20 -VScroll +ReadOnly vLogs, Sleeping...
+Gui, Add, CheckBox, x35 y61 w25 h20 vQuick,
 Gui, Add, Button, x0 y80 w23 h22 gFlask1, 1
-Gui, Add, Button, x20 y80 w23 h22 gFlask2, 2
-Gui, Add, Button, x40 y80 w23 h22 gFlask3, 3
-Gui, Add, Button, x60 y80 w23 h22 gFlask4, 4
-Gui, Add, Button, x80 y80 w23 h22 gFlask5, 5
+Gui, Add, Button, x24 y80 w23 h22 gFlask2, 2
+Gui, Add, Button, x48 y80 w23 h22 gFlask3, 3
+Gui, Add, Button, x72 y80 w23 h22 gFlask4, 4
+Gui, Add, Button, x96 y80 w23 h22 gFlask5, 5
 Gui, Add, Button, x0 y100 w23 h22 gSkillQ, Q
-Gui, Add, Button, x20 y100 w23 h22 gSkillW, W
-Gui, Add, Button, x40 y100 w23 h22 gSkillE, E
-Gui, Add, Button, x60 y100 w23 h22 gSkillR, R
-Gui, Add, Button, x80 y100 w23 h22 gSkillT, T
-Gui, Add, Button, x100 y100 w23 h22 gSkillSeq, SQ
-Gui, Add, Button, x100 y60 w23 h22 vHelp gHelp, ?
-Gui, Add, Button, x100 y80 w23 h22 vHK gHK, HK
-Gui, Show,% "x" A_ScreenWidth - 140 " y" A_ScreenHeight - 170 " w" 126 " h" 120, Script V2.4
-Gui, Color, 
+Gui, Add, Button, x24 y100 w23 h22 gSkillW, W
+Gui, Add, Button, x48 y100 w23 h22 gSkillE, E
+Gui, Add, Button, x72 y100 w23 h22 gSkillR, R
+Gui, Add, Button, x96 y100 w23 h22 gSkillT, T
+
+Gui, Add, Button, x0 y120 w46 h22 gSpam, Spam
+Gui, Add, Button, x48 y120 w23 h22 vHK gHK, HK
+Gui, Add, Button, x72 y120 w23 h22 gSkillSeq, SQ
+Gui, Add, Button, x96 y120 w23 h22 vHelp gHelp, ?
+
+
+Gui, Show,% "x" A_ScreenWidth - 140 " y" A_ScreenHeight - 212 " w" 120 " h" 143, Script V3.0
+Gui, Color,
 return
 
 GuiClose:
@@ -99,10 +117,21 @@ SkillSeq:
 	Run %A_ScriptDir%\timers\Skill_sequence.ahk
 	return
 
+Hideout:
+	if WinExist("ahk_class POEWindowClass") {
+		WinActivate, Path of Exile
+		Send {Enter}
+		SendRaw /Hideout
+		Send {Enter}
+	} else {
+		return
+	}
+	return
+
 Help:
 	if (switch = false) {
 		switch := true
-		ToolTip, %Start% = Start Flasks`n%Stop% = Stop Flasks`n%Currency% = Right click a currency and then press F7 to use that currency on all items inside inventory`n%Proph% = Buy prophecies (leave out bottom right for this)`n%Decks% = Open Stacked decks in first row`n%Inv% = Throws all items from your inventory to the ground`n%End% = Abrubtly ends script`nCtrl + Numpadx = Moves x column Inventory to stash`nCtrl + Numpad0 = Moves all Inventory to stash`nCtrl + Numpad+ = Moves all Inventory to stash VERY FAST (do not use for trades!!!)`n, 100, 150
+		ToolTip, %Start% = Start Flasks`n%Stop% = Stop Flasks`n%Currency% = Right click a currency and then press %Currency% to use that currency on all items inside inventory`n%Decks% = Open Stacked decks in first row`n%End% = Abrubtly ends function`nCtrl + Numpadx = Moves x column Inventory to stash`nCtrl + Numpad0 = Moves all Inventory to stash`nCtrl + Numpad+ = Moves all Inventory to stash VERY FAST (do not use for trades!!!), 0, 0
 	} else {
 		switch := false
 		RemoveToolTip:
@@ -110,7 +139,7 @@ Help:
 		return
 	}
 	return
-	
+
 HK:
 	Run %A_ScriptDir%\Hotkeys.ahk
 	return
@@ -122,14 +151,6 @@ StartHK:
 	timer := Timer
 	GuiControlGet, Flasks
 	flasks := flasks
-	if (timer = null) and (flasks = null) {
-		GuiControlGet, Timer
-		GuiControl,,Timer,Blocked
-		GuiControl,+ReadOnly,Timer
-		GuiControlGet, Flasks
-		GuiControl,,Flasks,Blocked
-		GuiControl,+ReadOnly,Flasks
-	}
 	if (WinActive("ahk_class POEWindowClass")) {
 		if (quick = false) {
 			GuiControlGet, Logs
@@ -144,7 +165,7 @@ StartHK:
 		}
 	}
 	return
-	
+
 StopHK:
 	stopFlasks()
 	return
@@ -182,49 +203,16 @@ StopHK:
 ^NumpadAdd::
 	fastInventoryToStash()
 	return
-	
-/* Removed getting Maps	
-$F6::
-	getMaps()
-	return
-*/
 
 CurrencyHK:
-	/* NEW VERSION WITH ALL CURRENCY POSSIBLE 
-	*/
-	Send, {Shift down}
-	twelveRow()
-	Send, {Shift up}
-	/* OLD VERSION WITH ALCH
-	MouseClick, right, 491, 339, 1, 2
-	Send, {Shift down}
-	twelveRow()
-	Send, {Shift up}
-	return
-	*/
-	return
-	
-ProphHK:
 	autoToggle := true
-	buyProph()
+	useCurrencyOnInv()
 	return
 
 DecksHK:
 	autoToggle := true
 	stackedDeck()
 	return
-	
-InvHK:
-	autoToggle := true
-	inventoryToGround()
-	return
-
-/* Removed chancing
-$F11::
-	autoToggle := true
-	chancing()
-	return
-*/
 
 EndHK:
 	autoToggle := false
@@ -232,7 +220,15 @@ EndHK:
 	deckCount := 0
 	coorCount := 0
 	return
-	
+
+EndCurrHK:
+	autoToggle := false
+	chanceCount := 0
+	deckCount := 0
+	coorCount := 0
+	Send, {Shift up}
+	return
+
 	runFlasks() {
 		if (WinActive("ahk_class POEWindowClass")) {
 		if (flasks = 1) {
@@ -333,23 +329,13 @@ EndHK:
 		}
 	}
 	}
-	
+
 	stopFlasks() {
 		toggle := false
 		GuiControlGet, Logs
 		GuiControl,, Logs, Sleeping...
-		if (Timer = Blocked) {
-		GuiControlGet, Timer
-		GuiControl,,Timer,
-		GuiControl,-ReadOnly,Timer
-		}
-		if (Flasks = Blocked) {
-		GuiControlGet, Flasks
-		GuiControl,,Flasks,
-		GuiControl,-ReadOnly,Flasks
-		}
 	}
-	
+
 	runQuick() {
 		if (WinActive("ahk_class POEWindowClass")) {
 			if (flasks = 45) {
@@ -374,540 +360,359 @@ EndHK:
 			}
 		}
 	}
-	
+
 	stackedDeck() {
 		if (WinActive("ahk_class POEWindowClass")) {
-			deckCount = 0
-			while (autoToggle = true) and (deckCount < 11) {
-				MouseClick, right, 1298, 613, 1, 2
-				MouseClick, left, 1218, 613, 1, 2
-				MouseClick, right, 1298, 667, 1, 2
-				MouseClick, left, 1218, 667, 1, 2
-				MouseClick, right, 1298, 721, 1, 2
-				MouseClick, left, 1218, 721, 1, 2
-				MouseClick, right, 1298, 772, 1, 2
-				MouseClick, left, 1218, 772, 1, 2
-				MouseClick, right, 1298, 826, 1, 2
-				MouseClick, left, 1218, 826, 1, 2
-				deckCount++
+			autoToggle := true
+			cell := 0
+			deckcount := 0
+			Loop, 10 {
+				If (autoToggle = true) {
+				Loop, 5 {
+					if(autoToggle = true) {
+						localStartX := startingX
+						localStartY := startingY
+						localEndX := endingX
+						localEndY := endingY
+						localX := startingX
+						localY := ((localEndY - localStartY) / 4) * cell + localStartY
+						if (autoToggle = true) {
+							MouseClick, right, %localX%, %localY%, 1, 2
+							localX := localX - 100
+							MouseClick, left, %localX%, %localY%, 1, 2
+						}
+							If (cell < 4) {
+								cell := cell + 1
+							} else {
+								cell := 0
+							}
+						}
+					}
+				}
 			}
-			return
 		}
 		return
 	}
-	
-	buyProph() {
-		if (WinActive("ahk_class POEWindowClass")) {
-			coorX := 1298
-			coorY := 613
-			prophCount := 0
-			while (autoToggle = true) {
-				if (prophCount = 5) {
-					prophCount := 0
-					coorX := coorX + 52
-					coorY := 613
-				}
-				MouseClick, left, 336, 776, 1, 2
-				Sleep, 300
-				MouseClick, left, 425, 609, 1, 2
-				Sleep, 300
-				MouseClick, left, 836, 555, 1, 2
-				Sleep, 300
-				MouseClick, left, %coorX%, %coorY%, 1, 2
-				Sleep, 300
-				coorY := coorY + 50
-				prophCount++
-			}
-			return
-		}
-		return
+
+	wrongReso() {
+		MsgBox, 0, Resolution not supported, Resolution %xCoor% x %yCoor% is not supported. Supported resolutions are:`n- 1920x1080`n- 1920x800`n`nIf you want me to add your resolution please contact me.`n`nYou can configure the resolution inside the window.ini file inside the timers folder.
+		ExitApp
 	}
-	
-	inventoryToGround(){
-		if (WinActive("ahk_class POEWindowClass")) {
-			coorX := 1298
-			coorY := 613
-			coorCount := 0
-			while (autoToggle = true) {
-				if (coorCount = 5) {
-					coorCount := 0
-					coorX := coorX + 52
-					coorY := 613
-				}
-				MouseClick, left, %coorX%, %coorY%, 1, 2
-				MouseClick, left, 1196, 604, 1, 2
-				coorY := coorY + 50
-				coorCount++
-			}
+
+	checkReso() {
+		if(xCoor = null or yCoor = null) {
+			wrongReso()
+			ExitApp
+		}	else if (xStartCoor <> null and yStartCoor <> null) {
+			startingX := xStartCoor
+			startingY := yStartCoor
+			endingX := xEndCoor
+			endingY := yEndCoor
 			return
-		}
-		return
-	}
-		
-	
-	/* works - deactivated - chancing
-	chancing() {
-		if (WinActive("ahk_class POEWindowClass")) {
-			while (chanceToggle) and (chanceCount < 21) {
-				if (chanceToggle) {
-					MouseClick, right, 1403, 613, 1, 2
-					MouseClick, left, 1298, 613, 1, 2
-					MouseClick, right, 1403, 667, 1, 2
-					MouseClick, left, 1298, 667, 1, 2
-					MouseClick, right, 1403, 721, 1, 2
-					MouseClick, left, 1298, 721, 1, 2
-					MouseClick, right, 1403, 772, 1, 2
-					MouseClick, left, 1298, 772, 1, 2
-					MouseClick, right, 1403, 826, 1, 2
-					MouseClick, left, 1298, 826, 1, 2
-					
-					MouseClick, right, 1666, 613, 1, 2
-					MouseClick, left, 1298, 613, 1, 2
-					MouseClick, right, 1666, 667, 1, 2
-					MouseClick, left, 1298, 667, 1, 2
-					MouseClick, right, 1666, 721, 1, 2
-					MouseClick, left, 1298, 721, 1, 2
-					MouseClick, right, 1666, 772, 1, 2
-					MouseClick, left, 1298, 772, 1, 2
-					MouseClick, right, 1666, 826, 1, 2
-					MouseClick, left, 1298, 826, 1, 2
-				}
-				if (chanceToggle) {
-					MouseClick, right, 1454, 613, 1, 2
-					MouseClick, left, 1298, 613, 1, 2
-					MouseClick, right, 1454, 667, 1, 2
-					MouseClick, left, 1298, 667, 1, 2
-					MouseClick, right, 1454, 721, 1, 2
-					MouseClick, left, 1298, 721, 1, 2
-					MouseClick, right, 1454, 772, 1, 2
-					MouseClick, left, 1298, 772, 1, 2
-					MouseClick, right, 1454, 826, 1, 2
-					MouseClick, left, 1298, 826, 1, 2
-					
-					MouseClick, right, 1718, 613, 1, 2
-					MouseClick, left, 1298, 613, 1, 2
-					MouseClick, right, 1718, 667, 1, 2
-					MouseClick, left, 1298, 667, 1, 2
-					MouseClick, right, 1718, 721, 1, 2
-					MouseClick, left, 1298, 721, 1, 2
-					MouseClick, right, 1718, 772, 1, 2
-					MouseClick, left, 1298, 772, 1, 2
-					MouseClick, right, 1718, 826, 1, 2
-					MouseClick, left, 1298, 826, 1, 2
-				}
-				if (chanceToggle) {
-					MouseClick, right, 1509, 613, 1, 2
-					MouseClick, left, 1298, 613, 1, 2
-					MouseClick, right, 1509, 667, 1, 2
-					MouseClick, left, 1298, 667, 1, 2
-					MouseClick, right, 1509, 721, 1, 2
-					MouseClick, left, 1298, 721, 1, 2
-					MouseClick, right, 1509, 772, 1, 2
-					MouseClick, left, 1298, 772, 1, 2
-					MouseClick, right, 1509, 826, 1, 2
-					MouseClick, left, 1298, 826, 1, 2
-					
-					MouseClick, right, 1771, 613, 1, 2
-					MouseClick, left, 1298, 613, 1, 2
-					MouseClick, right, 1771, 667, 1, 2
-					MouseClick, left, 1298, 667, 1, 2
-					MouseClick, right, 1771, 721, 1, 2
-					MouseClick, left, 1298, 721, 1, 2
-					MouseClick, right, 1771, 772, 1, 2
-					MouseClick, left, 1298, 772, 1, 2
-					MouseClick, right, 1771, 826, 1, 2
-					MouseClick, left, 1298, 826, 1, 2
-				}
-				if (chanceToggle) {
-					MouseClick, right, 1561, 613, 1, 2
-					MouseClick, left, 1298, 613, 1, 2
-					MouseClick, right, 1561, 667, 1, 2
-					MouseClick, left, 1298, 667, 1, 2
-					MouseClick, right, 1561, 721, 1, 2
-					MouseClick, left, 1298, 721, 1, 2
-					MouseClick, right, 1561, 772, 1, 2
-					MouseClick, left, 1298, 772, 1, 2
-					MouseClick, right, 1561, 826, 1, 2
-					MouseClick, left, 1298, 826, 1, 2
-					
-					MouseClick, right, 1823, 613, 1, 2
-					MouseClick, left, 1298, 613, 1, 2
-					MouseClick, right, 1823, 667, 1, 2
-					MouseClick, left, 1298, 667, 1, 2
-					MouseClick, right, 1823, 721, 1, 2
-					MouseClick, left, 1298, 721, 1, 2
-					MouseClick, right, 1823, 772, 1, 2
-					MouseClick, left, 1298, 772, 1, 2
-					MouseClick, right, 1823, 826, 1, 2
-					MouseClick, left, 1298, 826, 1, 2
-				}
-				if (chanceToggle) {
-					MouseClick, right, 1612, 613, 1, 2
-					MouseClick, left, 1298, 613, 1, 2
-					MouseClick, right, 1612, 667, 1, 2
-					MouseClick, left, 1298, 667, 1, 2
-					MouseClick, right, 1612, 721, 1, 2
-					MouseClick, left, 1298, 721, 1, 2
-					MouseClick, right, 1612, 772, 1, 2
-					MouseClick, left, 1298, 772, 1, 2
-					MouseClick, right, 1612, 826, 1, 2
-					MouseClick, left, 1298, 826, 1, 2
-					
-					MouseClick, right, 1877, 613, 1, 2
-					MouseClick, left, 1298, 613, 1, 2
-					MouseClick, right, 1877, 667, 1, 2
-					MouseClick, left, 1298, 667, 1, 2
-					MouseClick, right, 1877, 721, 1, 2
-					MouseClick, left, 1298, 721, 1, 2
-					MouseClick, right, 1877, 772, 1, 2
-					MouseClick, left, 1298, 772, 1, 2
-					MouseClick, right, 1877, 826, 1, 2
-					MouseClick, left, 1298, 826, 1, 2
-				}
-				chanceCount++
-			}
+		} else if (xCoor = 1920 and yCoor = 1080) {
+			startingX := 1298
+			startingY := 613
+			endingX := 1877
+			endingY := 826
 			return
+		}	else if (xCoor = 1920 and yCoor = 800) {
+			startingX := 1457
+			startingY := 452
+			endingX := 1886
+			endingY := 610
+			return
+		} else {
+			wrongReso()
 		}
-		return
 	}
-	*/
-	
+
 	oneRow() {
 		if (WinActive("ahk_class POEWindowClass")) {
-			MouseClick, left, 1298, 613, 1, 2
-			MouseClick, left, 1298, 667, 1, 2
-			MouseClick, left, 1298, 721, 1, 2
-			MouseClick, left, 1298, 772, 1, 2
-			MouseClick, left, 1298, 826, 1, 2
+				autoToggle := true
+				row := 0
+				Loop, 1 {
+					if(autoToggle = true) {
+						localStartX := startingX
+						localStartY := startingY
+						localEndX := endingX
+						localEndY := endingY
+						localX := ((localEndX - localStartX) / 11) * row + localStartX
+						localY := startingY
+					Loop, 5 {
+						if (autoToggle = true) {
+							MouseClick, left, %localX%, %localY%, 1, 2
+							localY := (localEndY - localStartY) / 4 + localY
+						}
+					}
+				row := row + 1
+				}
+			}
 		}
 	}
-	
+
 	twoRow() {
 		if (WinActive("ahk_class POEWindowClass")) {
-			oneRow()
-			MouseClick, left, 1350, 613, 1, 2
-			MouseClick, left, 1350, 667, 1, 2
-			MouseClick, left, 1350, 721, 1, 2
-			MouseClick, left, 1350, 772, 1, 2
-			MouseClick, left, 1350, 826, 1, 2
+				autoToggle := true
+				row := 0
+				Loop, 2 {
+					if(autoToggle = true) {
+						localStartX := startingX
+						localStartY := startingY
+						localEndX := endingX
+						localEndY := endingY
+						localX := ((localEndX - localStartX) / 11) * row + localStartX
+						localY := startingY
+					Loop, 5 {
+						if (autoToggle = true) {
+							MouseClick, left, %localX%, %localY%, 1, 2
+							localY := (localEndY - localStartY) / 4 + localY
+						}
+					}
+				row := row + 1
+				}
+			}
 		}
 	}
-	
+
 	threeRow() {
 		if (WinActive("ahk_class POEWindowClass")) {
-			twoRow()
-			MouseClick, left, 1403, 613, 1, 2
-			MouseClick, left, 1403, 667, 1, 2
-			MouseClick, left, 1403, 721, 1, 2
-			MouseClick, left, 1403, 772, 1, 2
-			MouseClick, left, 1403, 826, 1, 2
+				autoToggle := true
+				row := 0
+				Loop, 3 {
+					if(autoToggle = true) {
+						localStartX := startingX
+						localStartY := startingY
+						localEndX := endingX
+						localEndY := endingY
+						localX := ((localEndX - localStartX) / 11) * row + localStartX
+						localY := startingY
+					Loop, 5 {
+						if (autoToggle = true) {
+							MouseClick, left, %localX%, %localY%, 1, 2
+							localY := (localEndY - localStartY) / 4 + localY
+						}
+					}
+				row := row + 1
+				}
+			}
 		}
 	}
-	
+
 	fourRow() {
 		if (WinActive("ahk_class POEWindowClass")) {
-			threeRow()
-			MouseClick, left, 1454, 613, 1, 2
-			MouseClick, left, 1454, 667, 1, 2
-			MouseClick, left, 1454, 721, 1, 2
-			MouseClick, left, 1454, 772, 1, 2
-			MouseClick, left, 1454, 826, 1, 2
+				autoToggle := true
+				row := 0
+				Loop, 4 {
+					if(autoToggle = true) {
+						localStartX := startingX
+						localStartY := startingY
+						localEndX := endingX
+						localEndY := endingY
+						localX := ((localEndX - localStartX) / 11) * row + localStartX
+						localY := startingY
+					Loop, 5 {
+						if (autoToggle = true) {
+							MouseClick, left, %localX%, %localY%, 1, 2
+							localY := (localEndY - localStartY) / 4 + localY
+						}
+					}
+				row := row + 1
+				}
+			}
 		}
 	}
 
 	fiveRow() {
 		if (WinActive("ahk_class POEWindowClass")) {
-			fourRow()
-			MouseClick, left, 1509, 613, 1, 2
-			MouseClick, left, 1509, 667, 1, 2
-			MouseClick, left, 1509, 721, 1, 2
-			MouseClick, left, 1509, 772, 1, 2
-			MouseClick, left, 1509, 826, 1, 2
+				autoToggle := true
+				row := 0
+				Loop, 5 {
+					if(autoToggle = true) {
+						localStartX := startingX
+						localStartY := startingY
+						localEndX := endingX
+						localEndY := endingY
+						localX := ((localEndX - localStartX) / 11) * row + localStartX
+						localY := startingY
+					Loop, 5 {
+						if (autoToggle = true) {
+							MouseClick, left, %localX%, %localY%, 1, 2
+							localY := (localEndY - localStartY) / 4 + localY
+						}
+					}
+				row := row + 1
+				}
+			}
 		}
 	}
-	
+
 	sixRow() {
 		if (WinActive("ahk_class POEWindowClass")) {
-			fiveRow()
-			MouseClick, left, 1561, 613, 1, 2
-			MouseClick, left, 1561, 667, 1, 2
-			MouseClick, left, 1561, 721, 1, 2
-			MouseClick, left, 1561, 772, 1, 2
-			MouseClick, left, 1561, 826, 1, 2
+				autoToggle := true
+				row := 0
+				Loop, 6 {
+					if(autoToggle = true) {
+						localStartX := startingX
+						localStartY := startingY
+						localEndX := endingX
+						localEndY := endingY
+						localX := ((localEndX - localStartX) / 11) * row + localStartX
+						localY := startingY
+					Loop, 5 {
+						if (autoToggle = true) {
+							MouseClick, left, %localX%, %localY%, 1, 2
+							localY := (localEndY - localStartY) / 4 + localY
+						}
+					}
+				row := row + 1
+				}
+			}
 		}
 	}
-	
+
 	sevenRow() {
 		if (WinActive("ahk_class POEWindowClass")) {
-			sixRow()
-			MouseClick, left, 1612, 613, 1, 2
-			MouseClick, left, 1612, 667, 1, 2
-			MouseClick, left, 1612, 721, 1, 2
-			MouseClick, left, 1612, 772, 1, 2
-			MouseClick, left, 1612, 826, 1, 2
+				autoToggle := true
+				row := 0
+				Loop, 7 {
+					if(autoToggle = true) {
+						localStartX := startingX
+						localStartY := startingY
+						localEndX := endingX
+						localEndY := endingY
+						localX := ((localEndX - localStartX) / 11) * row + localStartX
+						localY := startingY
+					Loop, 5 {
+						if (autoToggle = true) {
+							MouseClick, left, %localX%, %localY%, 1, 2
+							localY := (localEndY - localStartY) / 4 + localY
+						}
+					}
+				row := row + 1
+				}
+			}
 		}
 	}
-	
+
 	eightRow() {
 		if (WinActive("ahk_class POEWindowClass")) {
-			sevenRow()
-			MouseClick, left, 1666, 613, 1, 2
-			MouseClick, left, 1666, 667, 1, 2
-			MouseClick, left, 1666, 721, 1, 2
-			MouseClick, left, 1666, 772, 1, 2
-			MouseClick, left, 1666, 826, 1, 2
+				autoToggle := true
+				row := 0
+				Loop, 8 {
+					if(autoToggle = true) {
+						localStartX := startingX
+						localStartY := startingY
+						localEndX := endingX
+						localEndY := endingY
+						localX := ((localEndX - localStartX) / 11) * row + localStartX
+						localY := startingY
+					Loop, 5 {
+						if (autoToggle = true) {
+							MouseClick, left, %localX%, %localY%, 1, 2
+							localY := (localEndY - localStartY) / 4 + localY
+						}
+					}
+				row := row + 1
+				}
+			}
 		}
 	}
-	
+
 	nineRow() {
 		if (WinActive("ahk_class POEWindowClass")) {
-			eightRow()
-			MouseClick, left, 1718, 613, 1, 2
-			MouseClick, left, 1718, 667, 1, 2
-			MouseClick, left, 1718, 721, 1, 2
-			MouseClick, left, 1718, 772, 1, 2
-			MouseClick, left, 1718, 826, 1, 2
+				autoToggle := true
+				row := 0
+				Loop, 9 {
+					if(autoToggle = true) {
+						localStartX := startingX
+						localStartY := startingY
+						localEndX := endingX
+						localEndY := endingY
+						localX := ((localEndX - localStartX) / 11) * row + localStartX
+						localY := startingY
+					Loop, 5 {
+						if (autoToggle = true) {
+							MouseClick, left, %localX%, %localY%, 1, 2
+							localY := (localEndY - localStartY) / 4 + localY
+						}
+					}
+				row := row + 1
+				}
+			}
 		}
 	}
-	
+
 	twelveRow() {
 		if (WinActive("ahk_class POEWindowClass")) {
-			nineRow()
-			;Ten
-			MouseClick, left, 1771, 613, 1, 2
-			MouseClick, left, 1771, 667, 1, 2
-			MouseClick, left, 1771, 721, 1, 2
-			MouseClick, left, 1771, 772, 1, 2
-			MouseClick, left, 1771, 826, 1, 2
-			;Eleven
-			MouseClick, left, 1823, 613, 1, 2
-			MouseClick, left, 1823, 667, 1, 2
-			MouseClick, left, 1823, 721, 1, 2
-			MouseClick, left, 1823, 772, 1, 2
-			MouseClick, left, 1823, 826, 1, 2
-			;Twelve
-			MouseClick, left, 1877, 613, 1, 2
-			MouseClick, left, 1877, 667, 1, 2
-			MouseClick, left, 1877, 721, 1, 2
-			MouseClick, left, 1877, 772, 1, 2
-			MouseClick, left, 1877, 826, 1, 2
+				autoToggle := true
+				row := 0
+				Loop, 12 {
+					if(autoToggle = true) {
+						localStartX := startingX
+						localStartY := startingY
+						localEndX := endingX
+						localEndY := endingY
+						localX := ((localEndX - localStartX) / 11) * row + localStartX
+						localY := startingY
+					Loop, 5 {
+						if (autoToggle = true) {
+							MouseClick, left, %localX%, %localY%, 1, 2
+							localY := (localEndY - localStartY) / 4 + localY
+						}
+					}
+				row := row + 1
+				} else {
+					return
+				}
+			}
 		}
 	}
-	
+
 	fastInventoryToStash() {
 		if (WinActive("ahk_class POEWindowClass")) {
-			;1
-			MouseClick, left, 1298, 613, 1, 0
-			MouseClick, left, 1298, 667, 1, 0
-			MouseClick, left, 1298, 721, 1, 0
-			MouseClick, left, 1298, 772, 1, 0
-			MouseClick, left, 1298, 826, 1, 0
-			;2
-			MouseClick, left, 1350, 613, 1, 0
-			MouseClick, left, 1350, 667, 1, 0
-			MouseClick, left, 1350, 721, 1, 0
-			MouseClick, left, 1350, 772, 1, 0
-			MouseClick, left, 1350, 826, 1, 0
-			;3
-			MouseClick, left, 1403, 613, 1, 0
-			MouseClick, left, 1403, 667, 1, 0
-			MouseClick, left, 1403, 721, 1, 0
-			MouseClick, left, 1403, 772, 1, 0
-			MouseClick, left, 1403, 826, 1, 0
-			;4
-			MouseClick, left, 1454, 613, 1, 0
-			MouseClick, left, 1454, 667, 1, 0
-			MouseClick, left, 1454, 721, 1, 0
-			MouseClick, left, 1454, 772, 1, 0
-			MouseClick, left, 1454, 826, 1, 0
-			;5
-			MouseClick, left, 1509, 613, 1, 0
-			MouseClick, left, 1509, 667, 1, 0
-			MouseClick, left, 1509, 721, 1, 0
-			MouseClick, left, 1509, 772, 1, 0
-			MouseClick, left, 1509, 826, 1, 0
-			;6
-			MouseClick, left, 1561, 613, 1, 0
-			MouseClick, left, 1561, 667, 1, 0
-			MouseClick, left, 1561, 721, 1, 0
-			MouseClick, left, 1561, 772, 1, 0
-			MouseClick, left, 1561, 826, 1, 0
-			;7
-			MouseClick, left, 1612, 613, 1, 0
-			MouseClick, left, 1612, 667, 1, 0
-			MouseClick, left, 1612, 721, 1, 0
-			MouseClick, left, 1612, 772, 1, 0
-			MouseClick, left, 1612, 826, 1, 0
-			;8
-			MouseClick, left, 1666, 613, 1, 0
-			MouseClick, left, 1666, 667, 1, 0
-			MouseClick, left, 1666, 721, 1, 0
-			MouseClick, left, 1666, 772, 1, 0
-			MouseClick, left, 1666, 826, 1, 0
-			;9
-			MouseClick, left, 1718, 613, 1, 0
-			MouseClick, left, 1718, 667, 1, 0
-			MouseClick, left, 1718, 721, 1, 0
-			MouseClick, left, 1718, 772, 1, 0
-			MouseClick, left, 1718, 826, 1, 0
-			;10
-			MouseClick, left, 1771, 613, 1, 0
-			MouseClick, left, 1771, 667, 1, 0
-			MouseClick, left, 1771, 721, 1, 0
-			MouseClick, left, 1771, 772, 1, 0
-			MouseClick, left, 1771, 826, 1, 0
-			;11
-			MouseClick, left, 1823, 613, 1, 0
-			MouseClick, left, 1823, 667, 1, 0
-			MouseClick, left, 1823, 721, 1, 0
-			MouseClick, left, 1823, 772, 1, 0
-			MouseClick, left, 1823, 826, 1, 0
-			;12
-			MouseClick, left, 1877, 613, 1, 0
-			MouseClick, left, 1877, 667, 1, 0
-			MouseClick, left, 1877, 721, 1, 0
-			MouseClick, left, 1877, 772, 1, 0
-			MouseClick, left, 1877, 826, 1, 0
+				autoToggle := true
+				row := 0
+				Loop, 12 {
+					if(autoToggle = true) {
+						localStartX := startingX
+						localStartY := startingY
+						localEndX := endingX
+						localEndY := endingY
+						localX := ((localEndX - localStartX) / 11) * row + localStartX
+						localY := startingY
+					Loop, 5 {
+						if (autoToggle = true) {
+							MouseClick, left, %localX%, %localY%, 1, 0
+							localY := (localEndY - localStartY) / 4 + localY
+						}
+					}
+				row := row + 1
+				}
+			}
 		}
 	}
-	
-	
-	/* works - deactivated - getting maps
-	getMaps() {
+
+	useCurrencyOnInv() {
 		if (WinActive("ahk_class POEWindowClass")) {
-				Send, {Control down}
-	;Erste Spalte
-	MouseClick, left, 66, 507, 1, 2
-	MouseClick, left, 66, 557, 1, 2
-	MouseClick, left, 66, 607, 1, 2
-	MouseClick, left, 66, 657, 1, 2
-	MouseClick, left, 66, 707, 1, 2
-	MouseClick, left, 66, 757, 1, 2
-	
-	MouseClick, left, 116, 507, 1, 2
-	MouseClick, left, 116, 557, 1, 2
-	MouseClick, left, 116, 607, 1, 2
-	MouseClick, left, 116, 657, 1, 2
-	MouseClick, left, 116, 707, 1, 2
-	MouseClick, left, 116, 757, 1, 2
-	
-	MouseClick, left, 167, 507, 1, 2
-	MouseClick, left, 167, 557, 1, 2
-	MouseClick, left, 167, 607, 1, 2
-	MouseClick, left, 167, 657, 1, 2
-	MouseClick, left, 167, 707, 1, 2
-	MouseClick, left, 167, 757, 1, 2
-	
-	MouseClick, left, 211, 507, 1, 2
-	MouseClick, left, 211, 557, 1, 2
-	MouseClick, left, 211, 607, 1, 2
-	MouseClick, left, 211, 657, 1, 2
-	MouseClick, left, 211, 707, 1, 2
-	MouseClick, left, 211, 757, 1, 2
-	
-	MouseClick, left, 260, 507, 1, 2
-	MouseClick, left, 260, 557, 1, 2
-	MouseClick, left, 260, 607, 1, 2
-	MouseClick, left, 260, 657, 1, 2
-	MouseClick, left, 260, 707, 1, 2
-	MouseClick, left, 260, 757, 1, 2
-	
-	MouseClick, left, 307, 507, 1, 2
-	MouseClick, left, 307, 557, 1, 2
-	MouseClick, left, 307, 607, 1, 2
-	MouseClick, left, 307, 657, 1, 2
-	MouseClick, left, 307, 707, 1, 2
-	MouseClick, left, 307, 757, 1, 2
-	
-	MouseClick, left, 355, 507, 1, 2
-	MouseClick, left, 355, 557, 1, 2
-	MouseClick, left, 355, 607, 1, 2
-	MouseClick, left, 355, 657, 1, 2
-	MouseClick, left, 355, 707, 1, 2
-	MouseClick, left, 355, 757, 1, 2
-	
-	MouseClick, left, 402, 507, 1, 2
-	MouseClick, left, 402, 557, 1, 2
-	MouseClick, left, 402, 607, 1, 2
-	MouseClick, left, 402, 657, 1, 2
-	MouseClick, left, 402, 707, 1, 2
-	MouseClick, left, 402, 757, 1, 2
-	
-	MouseClick, left, 449, 507, 1, 2
-	MouseClick, left, 449, 557, 1, 2
-	MouseClick, left, 449, 607, 1, 2
-	MouseClick, left, 449, 657, 1, 2
-	MouseClick, left, 449, 707, 1, 2
-	MouseClick, left, 449, 757, 1, 2
-	
-	MouseClick, left, 496, 507, 1, 2
-	MouseClick, left, 496, 557, 1, 2
-	MouseClick, left, 496, 607, 1, 2
-	MouseClick, left, 496, 657, 1, 2
-	MouseClick, left, 496, 707, 1, 2
-	MouseClick, left, 496, 757, 1, 2
-	Send, {Control up}
+				autoToggle := true
+				row := 0
+				Send, {Shift down}
+				Loop, 12 {
+					if(autoToggle = true) {
+						localStartX := startingX
+						localStartY := startingY
+						localEndX := endingX
+						localEndY := endingY
+						localX := ((localEndX - localStartX) / 11) * row + localStartX
+						localY := startingY
+					Loop, 5 {
+						if (autoToggle = true) {
+							MouseClick, left, %localX%, %localY%, 1, 2
+							localY := (localEndY - localStartY) / 4 + localY
+						}
+					}
+				row := row + 1
+				}
+			}
 		}
 	}
-	*/
-	/* works - deactivated - move maps right
-	moveMapsRight() {
-		if (WinActive("ahk_class POEWindowClass")) {
-			;erste 5 Maps
-			MouseClick, left, 1298, 613, 1, 2
-			MouseClick, left, 1875, 613, 1, 2
-			MouseClick, left, 1298, 667, 1, 2
-			MouseClick, left, 1875, 667, 1, 2
-			MouseClick, left, 1298, 721, 1, 2
-			MouseClick, left, 1875, 721, 1, 2
-			MouseClick, left, 1298, 772, 1, 2
-			MouseClick, left, 1875, 772, 1, 2
-			MouseClick, left, 1298, 826, 1, 2
-			MouseClick, left, 1875, 826, 1, 2
-			;zweite 5 Maps
-			MouseClick, left, 1349, 613, 1, 2
-			MouseClick, left, 1824, 613, 1, 2
-			MouseClick, left, 1349, 667, 1, 2
-			MouseClick, left, 1824, 667, 1, 2
-			MouseClick, left, 1349, 721, 1, 2
-			MouseClick, left, 1824, 721, 1, 2
-			MouseClick, left, 1349, 772, 1, 2
-			MouseClick, left, 1824, 772, 1, 2
-			MouseClick, left, 1349, 826, 1, 2
-			MouseClick, left, 1824, 826, 1, 2
-			;dritte 5 Maps
-			MouseClick, left, 1400, 613, 1, 2
-			MouseClick, left, 1773, 613, 1, 2
-			MouseClick, left, 1400, 667, 1, 2
-			MouseClick, left, 1773, 667, 1, 2
-			MouseClick, left, 1400, 721, 1, 2
-			MouseClick, left, 1773, 721, 1, 2
-			MouseClick, left, 1400, 772, 1, 2
-			MouseClick, left, 1773, 772, 1, 2
-			MouseClick, left, 1400, 826, 1, 2
-			MouseClick, left, 1773, 826, 1, 2
-			;vierte 5 Maps
-			MouseClick, left, 1451, 613, 1, 2
-			MouseClick, left, 1722, 613, 1, 2
-			MouseClick, left, 1451, 667, 1, 2
-			MouseClick, left, 1722, 667, 1, 2
-			MouseClick, left, 1451, 721, 1, 2
-			MouseClick, left, 1722, 721, 1, 2
-			MouseClick, left, 1451, 772, 1, 2
-			MouseClick, left, 1722, 772, 1, 2
-			MouseClick, left, 1451, 826, 1, 2
-			MouseClick, left, 1722, 826, 1, 2
-			;fünfte 5 Maps
-			MouseClick, left, 1502, 613, 1, 2
-			MouseClick, left, 1671, 613, 1, 2
-			MouseClick, left, 1502, 667, 1, 2
-			MouseClick, left, 1671, 667, 1, 2
-			MouseClick, left, 1502, 721, 1, 2
-			MouseClick, left, 1671, 721, 1, 2
-			MouseClick, left, 1502, 772, 1, 2
-			MouseClick, left, 1671, 772, 1, 2
-			MouseClick, left, 1502, 826, 1, 2
-			MouseClick, left, 1671, 826, 1, 2
-		}
-	}
-	*/
